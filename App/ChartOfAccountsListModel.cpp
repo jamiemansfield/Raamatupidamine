@@ -17,27 +17,28 @@
 
 #include "ChartOfAccountsListModel.h"
 
-ChartOfAccountsListModel::ChartOfAccountsListModel(QObject* parent) : QAbstractListModel(parent)
+ChartOfAccountsListModel::ChartOfAccountsListModel(QObject* parent)
+    : QAbstractListModel(parent)
 {
     m_accounts = Models::DefaultAccounts;
 }
 
-int ChartOfAccountsListModel::rowCount(const QModelIndex& parent) const
+int ChartOfAccountsListModel::rowCount(QModelIndex const& parent) const
 {
     return m_accounts.length();
 }
 
-int ChartOfAccountsListModel::columnCount(const QModelIndex& parent) const
+int ChartOfAccountsListModel::columnCount(QModelIndex const& parent) const
 {
     return 3;
 }
 
-QVariant ChartOfAccountsListModel::data(const QModelIndex& index, int role) const
+QVariant ChartOfAccountsListModel::data(QModelIndex const& index, int role) const
 {
-    const auto row = index.row();
-    const auto column = index.column();
+    auto const row = index.row();
+    auto const column = index.column();
 
-    const auto account = m_accounts.value(row);
+    auto const account = m_accounts.value(row);
 
     if (role == Qt::DisplayRole) {
         if (column == 0) {

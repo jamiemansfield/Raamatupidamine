@@ -19,14 +19,17 @@
 
 #include "Models/Account.h"
 
-ChartOfAccountsFilterModel::ChartOfAccountsFilterModel(QObject* parent) : QSortFilterProxyModel(parent) {}
+ChartOfAccountsFilterModel::ChartOfAccountsFilterModel(QObject* parent)
+    : QSortFilterProxyModel(parent)
+{
+}
 
-bool ChartOfAccountsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+bool ChartOfAccountsFilterModel::filterAcceptsRow(int sourceRow, QModelIndex const& sourceParent) const
 {
     return true;
 }
 
-bool ChartOfAccountsFilterModel::lessThan(const QModelIndex& left, const QModelIndex& right) const
+bool ChartOfAccountsFilterModel::lessThan(QModelIndex const& left, QModelIndex const& right) const
 {
     auto leftAccount = sourceModel()->data(left, Qt::UserRole).value<Models::Account>();
     auto rightAccount = sourceModel()->data(right, Qt::UserRole).value<Models::Account>();

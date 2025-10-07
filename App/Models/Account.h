@@ -42,7 +42,7 @@ struct Account {
 
 QString account_type_to_name(Account::Type type);
 
-const QVector<Account> DefaultAccounts = {
+QVector<Account> const DefaultAccounts = {
     // Equity
     Account {
         .code = "9000",

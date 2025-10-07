@@ -26,7 +26,6 @@ public:
     explicit ChartOfAccountsFilterModel(QObject* parent = nullptr);
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
-
-    bool lessThan(const QModelIndex& left, const QModelIndex& right) const override;
+    bool filterAcceptsRow(int sourceRow, QModelIndex const& sourceParent) const override;
+    bool lessThan(QModelIndex const& left, QModelIndex const& right) const override;
 };

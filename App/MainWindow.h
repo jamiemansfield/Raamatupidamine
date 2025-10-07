@@ -23,7 +23,9 @@
 #include "ChartOfAccountsListModel.h"
 
 namespace Ui {
+
 class MainWindow;
+
 }
 
 class MainWindow : public QMainWindow {
@@ -31,12 +33,10 @@ class MainWindow : public QMainWindow {
 
 public:
     MainWindow();
-
     ~MainWindow() override;
 
 private slots:
     void on_actionAbout_Raamatupidamine_triggered();
-
     void on_actionAbout_Qt_triggered();
 
 private:
