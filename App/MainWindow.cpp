@@ -40,7 +40,7 @@ void MainWindow::on_actionAbout_Raamatupidamine_triggered()
 {
     QString text;
     text += "<h2>About Raamatupidamine</h2>";
-    text += "<p>Raamatupidamine is basic bookkeeping software written in Qt.</p>";
+    text += "<p><a href=\"https://sonaveeb.ee/search/unif/dlall/dsall/raamatupidamine/1/est?uilang=en\">Raamatupidamine</a> is basic bookkeeping software written in Qt.</p>";
     text += "<p>Raamatupidamine is made available under the GNU Lesser General Public License v3.0.</p>";
 
     QMessageBox::about(this, "Raamatupidamine", text);
