@@ -17,31 +17,25 @@
 
 #pragma once
 
-#include <QMainWindow>
+#include <QAbstractListModel>
 
-#include "ChartOfAccountsFilterModel.h"
-#include "ChartOfAccountsListModel.h"
+#include "Models/Account.h"
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow {
+class ChartOfAccountsListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    MainWindow();
+    explicit ChartOfAccountsListModel(QObject* parent);
 
-    ~MainWindow() override;
+    int rowCount(const QModelIndex& parent) const override;
 
-private slots:
-    void on_actionAbout_Raamatupidamine_triggered();
+    int columnCount(const QModelIndex& parent) const override;
 
-    void on_actionAbout_Qt_triggered();
+    QVariant data(const QModelIndex& index, int role) const override;
+
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
 private:
-    Ui::MainWindow* m_ui;
+    QVector<Models::Account> m_accounts;
 
-    ChartOfAccountsListModel* m_listModel;
-    ChartOfAccountsFilterModel* m_filterModel;
 };

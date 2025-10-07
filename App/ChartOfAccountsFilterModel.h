@@ -17,31 +17,16 @@
 
 #pragma once
 
-#include <QMainWindow>
+#include <QSortFilterProxyModel>
 
-#include "ChartOfAccountsFilterModel.h"
-#include "ChartOfAccountsListModel.h"
-
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow {
+class ChartOfAccountsFilterModel : public QSortFilterProxyModel {
     Q_OBJECT
 
 public:
-    MainWindow();
+    explicit ChartOfAccountsFilterModel(QObject* parent = nullptr);
 
-    ~MainWindow() override;
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
-private slots:
-    void on_actionAbout_Raamatupidamine_triggered();
-
-    void on_actionAbout_Qt_triggered();
-
-private:
-    Ui::MainWindow* m_ui;
-
-    ChartOfAccountsListModel* m_listModel;
-    ChartOfAccountsFilterModel* m_filterModel;
+    bool lessThan(const QModelIndex& left, const QModelIndex& right) const override;
 };

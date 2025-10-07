@@ -15,33 +15,21 @@
  * License along with Raamatupidamine. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#include <QMainWindow>
-
 #include "ChartOfAccountsFilterModel.h"
-#include "ChartOfAccountsListModel.h"
 
-namespace Ui {
-class MainWindow;
+#include "Models/Account.h"
+
+ChartOfAccountsFilterModel::ChartOfAccountsFilterModel(QObject* parent) : QSortFilterProxyModel(parent) {}
+
+bool ChartOfAccountsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+    return true;
 }
 
-class MainWindow : public QMainWindow {
-    Q_OBJECT
+bool ChartOfAccountsFilterModel::lessThan(const QModelIndex& left, const QModelIndex& right) const
+{
+    auto leftAccount = sourceModel()->data(left, Qt::UserRole).value<Models::Account>();
+    auto rightAccount = sourceModel()->data(right, Qt::UserRole).value<Models::Account>();
 
-public:
-    MainWindow();
-
-    ~MainWindow() override;
-
-private slots:
-    void on_actionAbout_Raamatupidamine_triggered();
-
-    void on_actionAbout_Qt_triggered();
-
-private:
-    Ui::MainWindow* m_ui;
-
-    ChartOfAccountsListModel* m_listModel;
-    ChartOfAccountsFilterModel* m_filterModel;
-};
+    return QString::compare(leftAccount.code, rightAccount.code) > 0;
+}

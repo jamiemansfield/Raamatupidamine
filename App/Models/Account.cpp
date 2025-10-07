@@ -15,33 +15,30 @@
  * License along with Raamatupidamine. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "Account.h"
 
-#include <QMainWindow>
+namespace Models {
 
-#include "ChartOfAccountsFilterModel.h"
-#include "ChartOfAccountsListModel.h"
+QString account_type_to_name(Account::Type type)
+{
+    switch (type) {
+    case Account::Type::NonCurrentAsset:
+        return "Non-current Asset";
+    case Account::CurrentAsset:
+        return "Current Asset";
+    case Account::NonCurrentLiability:
+        return "Non-current Liability";
+    case Account::CurrentLiability:
+        return "Current Liability";
+    case Account::Equity:
+        return "Equity";
+    case Account::Income:
+        return "Income";
+    case Account::Expense:
+        return "Expense";
+    }
 
-namespace Ui {
-class MainWindow;
+    return {};
 }
 
-class MainWindow : public QMainWindow {
-    Q_OBJECT
-
-public:
-    MainWindow();
-
-    ~MainWindow() override;
-
-private slots:
-    void on_actionAbout_Raamatupidamine_triggered();
-
-    void on_actionAbout_Qt_triggered();
-
-private:
-    Ui::MainWindow* m_ui;
-
-    ChartOfAccountsListModel* m_listModel;
-    ChartOfAccountsFilterModel* m_filterModel;
-};
+}

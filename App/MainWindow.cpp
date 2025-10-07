@@ -22,8 +22,13 @@
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
+    , m_listModel(new ChartOfAccountsListModel(this))
+    , m_filterModel(new ChartOfAccountsFilterModel(this))
 {
     m_ui->setupUi(this);
+
+    m_filterModel->setSourceModel(m_listModel);
+    m_ui->treeView->setModel(m_filterModel);
 }
 
 MainWindow::~MainWindow()
