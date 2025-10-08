@@ -77,3 +77,10 @@ QVariant ChartOfAccountsListModel::headerData(int section, Qt::Orientation orien
 
     return {};
 }
+
+void ChartOfAccountsListModel::setAccount(QModelIndex const& index, Models::Account const& account)
+{
+    m_accounts[index.row()] = account;
+
+    emit dataChanged(index, index, { Qt::DisplayRole, Qt::UserRole });
+}

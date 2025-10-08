@@ -20,6 +20,8 @@
 
 #include <QMessageBox>
 
+#include "Dialogs/EditAccountDialog.h"
+
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
     , m_listModel(new ChartOfAccountsListModel(this))
@@ -34,6 +36,20 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {
     delete m_ui;
+}
+
+void MainWindow::on_treeView_doubleClicked(QModelIndex const& index)
+{
+    auto const sourceIndex = m_filterModel->mapToSource(index);
+    auto const account = m_listModel->data(sourceIndex, Qt::UserRole).value<Models::Account>();
+
+    Dialogs::EditAccountDialog dialog(this, account);
+    if (dialog.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    // Update model with new information.
+    m_listModel->setAccount(sourceIndex, dialog.account());
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()

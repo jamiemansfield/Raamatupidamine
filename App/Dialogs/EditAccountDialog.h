@@ -17,24 +17,29 @@
 
 #pragma once
 
-#include <QAbstractListModel>
+#include <QDialog>
 
-#include "Models/Account.h"
+#include "../Models/Account.h"
 
-class ChartOfAccountsListModel : public QAbstractListModel {
+namespace Ui {
+
+class EditAccountDialog;
+
+}
+
+namespace Dialogs {
+
+class EditAccountDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit ChartOfAccountsListModel(QObject* parent);
+    explicit EditAccountDialog(QWidget* parent, Models::Account account);
+    ~EditAccountDialog() override;
 
-    int rowCount(QModelIndex const& parent) const override;
-    int columnCount(QModelIndex const& parent) const override;
-
-    QVariant data(QModelIndex const& index, int role) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
-
-    void setAccount(QModelIndex const& index, Models::Account const& account);
+    Models::Account account() const;
 
 private:
-    QVector<Models::Account> m_accounts;
+    Ui::EditAccountDialog* m_ui;
 };
+
+}
