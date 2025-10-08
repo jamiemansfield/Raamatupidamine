@@ -21,6 +21,14 @@
 
 int main(int argc, char* argv[])
 {
+#ifdef Q_OS_WIN
+    // Set Windows Vista style if running on Windows.
+    // This isn't perfect (doesn't support dark mode for example), but looks
+    // better than the default (IMO).
+    // I'll look into https://github.com/oclero/qlementine in the future.
+    QApplication::setStyle("windowsvista");
+#endif
+
     QApplication a(argc, argv);
 
     MainWindow window;
