@@ -49,7 +49,19 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex const& index)
     }
 
     // Update model with new information.
-    m_listModel->setAccount(sourceIndex, dialog.account());
+    m_listModel->updateAccount(sourceIndex, dialog.account());
+}
+
+void MainWindow::on_actionAdd_Account_triggered()
+{
+    Dialogs::EditAccountDialog dialog(this);
+    dialog.setWindowTitle("Add Account");
+    if (dialog.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    // Add new account to the model.
+    m_listModel->addAccount(dialog.account());
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()

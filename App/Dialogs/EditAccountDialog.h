@@ -33,7 +33,7 @@ class EditAccountDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit EditAccountDialog(QWidget* parent, Models::Account account);
+    explicit EditAccountDialog(QWidget* parent, Models::Account account = {});
     ~EditAccountDialog() override;
 
     Models::Account account() const;

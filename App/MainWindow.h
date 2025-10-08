@@ -38,6 +38,8 @@ public:
 private slots:
     void on_treeView_doubleClicked(QModelIndex const& index);
 
+    void on_actionAdd_Account_triggered();
+
     void on_actionAbout_Raamatupidamine_triggered();
     void on_actionAbout_Qt_triggered();
 

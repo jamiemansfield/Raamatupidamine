@@ -78,7 +78,14 @@ QVariant ChartOfAccountsListModel::headerData(int section, Qt::Orientation orien
     return {};
 }
 
-void ChartOfAccountsListModel::setAccount(QModelIndex const& index, Models::Account const& account)
+void ChartOfAccountsListModel::addAccount(Models::Account const& account)
+{
+    beginInsertRows(QModelIndex(), m_accounts.size(), m_accounts.size());
+    m_accounts.push_back(account);
+    endInsertRows();
+}
+
+void ChartOfAccountsListModel::updateAccount(QModelIndex const& index, Models::Account const& account)
 {
     m_accounts[index.row()] = account;
 
