@@ -1,4 +1,7 @@
 qt_add_executable(Raamatupidamine
+    DB/MigrationManager.cpp
+    DB/Migrations.cpp
+
     Dialogs/EditAccountDialog.cpp
 
     Models/Account.cpp
@@ -9,4 +12,4 @@ qt_add_executable(Raamatupidamine
     main.cpp
 )
 
-target_link_libraries(Raamatupidamine PRIVATE Qt6::Widgets)
+target_link_libraries(Raamatupidamine PRIVATE Qt6::Widgets Qt6::Sql)
