@@ -64,6 +64,13 @@ void MainWindow::on_actionAdd_Account_triggered()
     m_listModel->saveAccount(dialog.account());
 }
 
+void MainWindow::on_actionAdd_Default_Accounts_triggered()
+{
+    for (auto const& account : Models::DefaultAccounts) {
+        m_listModel->saveAccount(account);
+    }
+}
+
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()
 {
     QString text;

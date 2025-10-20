@@ -54,6 +54,7 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionAdd_Account"/>
+    <addaction name="actionAdd_Default_Accounts"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -94,6 +95,11 @@
   <action name="actionAdd_Account">
    <property name="text">
     <string>Add Account</string>
+   </property>
+  </action>
+  <action name="actionAdd_Default_Accounts">
+   <property name="text">
+    <string>Add Default Accounts</string>
    </property>
   </action>
  </widget>
