@@ -17,9 +17,12 @@
 
 #include "Account.h"
 
+#include <QSqlError>
+#include <QSqlQuery>
+
 namespace Models {
 
-QString account_type_to_name(Account::Type type)
+QString account_type_to_name(Account::Type const& type)
 {
     switch (type) {
     case Account::Type::NonCurrentAsset:
@@ -39,6 +42,53 @@ QString account_type_to_name(Account::Type type)
     }
 
     return {};
+}
+
+Account::Type account_type_from_id(int id)
+{
+    switch (id) {
+    case Account::Type::NonCurrentAsset:
+        return Account::Type::NonCurrentAsset;
+    case Account::CurrentAsset:
+        return Account::CurrentAsset;
+    case Account::NonCurrentLiability:
+        return Account::NonCurrentLiability;
+    case Account::CurrentLiability:
+        return Account::CurrentLiability;
+    case Account::Equity:
+        return Account::Equity;
+    case Account::Income:
+        return Account::Income;
+    case Account::Expense:
+        return Account::Expense;
+
+    default:
+        return Account::NonCurrentAsset;
+    }
+}
+
+int save_account(Account const& account)
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // Create new account
+    if (account.id == -1) {
+        query.prepare("INSERT INTO accounts (code, title, type) VALUES (:code, :title, :type);");
+        query.bindValue(":code", account.code);
+        query.bindValue(":title", account.title);
+        query.bindValue(":type", account.type);
+        query.exec();
+        return query.lastInsertId().toInt();
+    }
+
+    // Update existing account
+    query.prepare("UPDATE accounts SET code = :code, title = :title, type = :type WHERE id = :id;");
+    query.bindValue(":id", account.id);
+    query.bindValue(":code", account.code);
+    query.bindValue(":title", account.title);
+    query.bindValue(":type", account.type);
+    query.exec();
+    return account.id;
 }
 
 }

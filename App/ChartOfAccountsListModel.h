@@ -33,8 +33,9 @@ public:
     QVariant data(QModelIndex const& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    void addAccount(Models::Account const& account);
-    void updateAccount(QModelIndex const& index, Models::Account const& account);
+    void saveAccount(Models::Account const& account);
+
+    void reload();
 
 private:
     QVector<Models::Account> m_accounts;

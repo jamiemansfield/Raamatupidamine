@@ -35,12 +35,16 @@ struct Account {
         Expense = 6,
     };
 
+    int id { -1 };
     QString code;
     QString title;
     Type type;
 };
 
-QString account_type_to_name(Account::Type type);
+QString account_type_to_name(Account::Type const& type);
+Account::Type account_type_from_id(int id);
+
+int save_account(Account const& account);
 
 QVector<Account> const DefaultAccounts = {
     // Equity

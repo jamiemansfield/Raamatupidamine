@@ -16,7 +16,10 @@
  */
 
 #include <QApplication>
+#include <QSqlError>
 
+#include "DB/MigrationManager.h"
+#include "DB/Migrations.h"
 #include "MainWindow.h"
 
 int main(int argc, char* argv[])
@@ -30,6 +33,13 @@ int main(int argc, char* argv[])
 #endif
 
     QApplication a(argc, argv);
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("raamatupidamine.db");
+    db.open();
+
+    DB::MigrationManager migrationManager;
+    DB::registerMigrations(migrationManager);
 
     MainWindow window;
     window.show();

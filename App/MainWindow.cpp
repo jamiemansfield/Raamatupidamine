@@ -49,7 +49,7 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex const& index)
     }
 
     // Update model with new information.
-    m_listModel->updateAccount(sourceIndex, dialog.account());
+    m_listModel->saveAccount(dialog.account());
 }
 
 void MainWindow::on_actionAdd_Account_triggered()
@@ -61,7 +61,7 @@ void MainWindow::on_actionAdd_Account_triggered()
     }
 
     // Add new account to the model.
-    m_listModel->addAccount(dialog.account());
+    m_listModel->saveAccount(dialog.account());
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()

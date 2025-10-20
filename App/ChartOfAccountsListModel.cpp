@@ -17,10 +17,13 @@
 
 #include "ChartOfAccountsListModel.h"
 
+#include <QSqlError>
+#include <QSqlQuery>
+
 ChartOfAccountsListModel::ChartOfAccountsListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    m_accounts = Models::DefaultAccounts;
+    reload();
 }
 
 int ChartOfAccountsListModel::rowCount(QModelIndex const& parent) const
@@ -78,16 +81,31 @@ QVariant ChartOfAccountsListModel::headerData(int section, Qt::Orientation orien
     return {};
 }
 
-void ChartOfAccountsListModel::addAccount(Models::Account const& account)
+void ChartOfAccountsListModel::saveAccount(Models::Account const& account)
 {
-    beginInsertRows(QModelIndex(), m_accounts.size(), m_accounts.size());
-    m_accounts.push_back(account);
-    endInsertRows();
+    Models::save_account(account);
+    reload();
 }
 
-void ChartOfAccountsListModel::updateAccount(QModelIndex const& index, Models::Account const& account)
+void ChartOfAccountsListModel::reload()
 {
-    m_accounts[index.row()] = account;
+    beginResetModel();
+    m_accounts.clear();
 
-    emit dataChanged(index, index, { Qt::DisplayRole, Qt::UserRole });
+    QSqlQuery query("SELECT id, code, title, type FROM accounts ORDER BY id;");
+    if (!query.exec()) {
+        endResetModel();
+        return;
+    }
+
+    while (query.next()) {
+        Models::Account account;
+        account.id = query.value("id").toInt();
+        account.code = query.value("code").toString();
+        account.title = query.value("title").toString();
+        account.type = Models::account_type_from_id(query.value("type").toInt());
+        m_accounts.append(account);
+    }
+
+    endResetModel();
 }

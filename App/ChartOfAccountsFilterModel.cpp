@@ -31,8 +31,8 @@ bool ChartOfAccountsFilterModel::filterAcceptsRow(int sourceRow, QModelIndex con
 
 bool ChartOfAccountsFilterModel::lessThan(QModelIndex const& left, QModelIndex const& right) const
 {
-    auto leftAccount = sourceModel()->data(left, Qt::UserRole).value<Models::Account>();
-    auto rightAccount = sourceModel()->data(right, Qt::UserRole).value<Models::Account>();
+    auto const leftAccount = sourceModel()->data(left, Qt::UserRole).value<Models::Account>();
+    auto const rightAccount = sourceModel()->data(right, Qt::UserRole).value<Models::Account>();
 
     return QString::compare(leftAccount.code, rightAccount.code) > 0;
 }
