@@ -111,6 +111,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>nominalLineEdit</tabstop>
+  <tabstop>titleLineEdit</tabstop>
+  <tabstop>typeComboBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
