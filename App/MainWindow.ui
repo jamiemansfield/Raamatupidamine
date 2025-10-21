@@ -14,18 +14,7 @@
    <string>Raamatupidamine</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QTreeView" name="treeView">
-      <property name="indentation">
-       <number>0</number>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <layout class="QGridLayout" name="gridLayout"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -53,8 +42,7 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionAdd_Account"/>
-    <addaction name="actionAdd_Default_Accounts"/>
+    <addaction name="actionChart_of_Accounts"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -84,22 +72,12 @@
     <enum>QAction::MenuRole::AboutQtRole</enum>
    </property>
   </action>
-  <action name="actionChart_Of_Accounts">
+  <action name="actionChart_of_Accounts">
    <property name="text">
-    <string>Chart Of Accounts</string>
+    <string>Chart of Accounts</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::ApplicationSpecificRole</enum>
-   </property>
-  </action>
-  <action name="actionAdd_Account">
-   <property name="text">
-    <string>Add Account</string>
-   </property>
-  </action>
-  <action name="actionAdd_Default_Accounts">
-   <property name="text">
-    <string>Add Default Accounts</string>
    </property>
   </action>
  </widget>

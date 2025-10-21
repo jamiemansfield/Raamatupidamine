@@ -19,25 +19,31 @@
 
 #include <QMainWindow>
 
+#include "ChartOfAccountsFilterModel.h"
+#include "ChartOfAccountsListModel.h"
+
 namespace Ui {
 
-class MainWindow;
+class ChartOfAccountsWindow;
 
 }
 
-class MainWindow : public QMainWindow {
+class ChartOfAccountsWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow() override;
+    ChartOfAccountsWindow(QWidget* parent = nullptr);
+    ~ChartOfAccountsWindow() override;
 
 private slots:
-    void on_actionChart_of_Accounts_triggered();
+    void on_treeView_doubleClicked(QModelIndex const& index);
 
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
+    void on_actionAdd_Account_triggered();
+    void on_actionAdd_Default_Accounts_triggered();
 
 private:
-    Ui::MainWindow* m_ui;
+    Ui::ChartOfAccountsWindow* m_ui;
+
+    ChartOfAccountsListModel* m_listModel;
+    ChartOfAccountsFilterModel* m_filterModel;
 };

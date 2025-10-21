@@ -20,17 +20,12 @@
 
 #include <QMessageBox>
 
-#include "Dialogs/EditAccountDialog.h"
+#include "ChartOfAccountsWindow.h"
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
-    , m_listModel(new ChartOfAccountsListModel(this))
-    , m_filterModel(new ChartOfAccountsFilterModel(this))
 {
     m_ui->setupUi(this);
-
-    m_filterModel->setSourceModel(m_listModel);
-    m_ui->treeView->setModel(m_filterModel);
 }
 
 MainWindow::~MainWindow()
@@ -38,37 +33,10 @@ MainWindow::~MainWindow()
     delete m_ui;
 }
 
-void MainWindow::on_treeView_doubleClicked(QModelIndex const& index)
+void MainWindow::on_actionChart_of_Accounts_triggered()
 {
-    auto const sourceIndex = m_filterModel->mapToSource(index);
-    auto const account = m_listModel->data(sourceIndex, Qt::UserRole).value<Models::Account>();
-
-    Dialogs::EditAccountDialog dialog(this, account);
-    if (dialog.exec() != QDialog::Accepted) {
-        return;
-    }
-
-    // Update model with new information.
-    m_listModel->saveAccount(dialog.account());
-}
-
-void MainWindow::on_actionAdd_Account_triggered()
-{
-    Dialogs::EditAccountDialog dialog(this);
-    dialog.setWindowTitle("Add Account");
-    if (dialog.exec() != QDialog::Accepted) {
-        return;
-    }
-
-    // Add new account to the model.
-    m_listModel->saveAccount(dialog.account());
-}
-
-void MainWindow::on_actionAdd_Default_Accounts_triggered()
-{
-    for (auto const& account : Models::DefaultAccounts) {
-        m_listModel->saveAccount(account);
-    }
+    auto window = new ChartOfAccountsWindow(this);
+    window->show();
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()

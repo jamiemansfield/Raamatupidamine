@@ -8,6 +8,7 @@ qt_add_executable(Raamatupidamine
 
     ChartOfAccountsFilterModel.cpp
     ChartOfAccountsListModel.cpp
+    ChartOfAccountsWindow.cpp
     MainWindow.cpp
     main.cpp
 )
