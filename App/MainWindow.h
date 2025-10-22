@@ -35,6 +35,8 @@ public:
 private slots:
     void on_actionChart_of_Accounts_triggered();
 
+    void on_actionCreate_Journal_triggered();
+
     void on_actionAbout_Raamatupidamine_triggered();
     void on_actionAbout_Qt_triggered();
 

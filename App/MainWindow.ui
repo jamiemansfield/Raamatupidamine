@@ -43,6 +43,8 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionChart_of_Accounts"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreate_Journal"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -78,6 +80,11 @@
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionCreate_Journal">
+   <property name="text">
+    <string>Create Journal</string>
    </property>
   </action>
  </widget>

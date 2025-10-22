@@ -68,13 +68,13 @@ QVariant ChartOfAccountsListModel::headerData(int section, Qt::Orientation orien
 {
     if (role == Qt::DisplayRole) {
         if (section == 0) {
-            return "Nominal code";
+            return "Nominal";
         }
         if (section == 1) {
-            return "Account Type";
+            return "Type";
         }
         if (section == 2) {
-            return "Account Title";
+            return "Account";
         }
     }
 

@@ -44,6 +44,6 @@ private slots:
 private:
     Ui::ChartOfAccountsWindow* m_ui;
 
-    ChartOfAccountsListModel* m_listModel;
-    ChartOfAccountsFilterModel* m_filterModel;
+    ChartOfAccountsListModel* m_list_model;
+    ChartOfAccountsFilterModel* m_filter_model;
 };

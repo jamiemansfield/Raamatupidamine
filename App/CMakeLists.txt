@@ -2,6 +2,7 @@ qt_add_executable(Raamatupidamine
     DB/MigrationManager.cpp
     DB/Migrations.cpp
 
+    Dialogs/CreateJournalDialog.cpp
     Dialogs/EditAccountDialog.cpp
 
     Models/Account.cpp

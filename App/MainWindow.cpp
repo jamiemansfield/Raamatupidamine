@@ -21,6 +21,7 @@
 #include <QMessageBox>
 
 #include "ChartOfAccountsWindow.h"
+#include "Dialogs/CreateJournalDialog.h"
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
@@ -37,6 +38,15 @@ void MainWindow::on_actionChart_of_Accounts_triggered()
 {
     auto window = new ChartOfAccountsWindow(this);
     window->show();
+}
+
+void MainWindow::on_actionCreate_Journal_triggered()
+{
+    Dialogs::CreateJournalDialog dialog(this);
+    if (dialog.exec() != QDialog::Accepted) {
+        return;
+    }
+    dialog.save_to_database();
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()

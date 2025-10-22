@@ -23,13 +23,13 @@
 ChartOfAccountsWindow::ChartOfAccountsWindow(QWidget* parent)
     : QMainWindow(parent)
     , m_ui(new Ui::ChartOfAccountsWindow)
-    , m_listModel(new ChartOfAccountsListModel(this))
-    , m_filterModel(new ChartOfAccountsFilterModel(this))
+    , m_list_model(new ChartOfAccountsListModel(this))
+    , m_filter_model(new ChartOfAccountsFilterModel(this))
 {
     m_ui->setupUi(this);
 
-    m_filterModel->setSourceModel(m_listModel);
-    m_ui->treeView->setModel(m_filterModel);
+    m_filter_model->setSourceModel(m_list_model);
+    m_ui->treeView->setModel(m_filter_model);
 }
 
 ChartOfAccountsWindow::~ChartOfAccountsWindow()
@@ -39,8 +39,8 @@ ChartOfAccountsWindow::~ChartOfAccountsWindow()
 
 void ChartOfAccountsWindow::on_treeView_doubleClicked(QModelIndex const& index)
 {
-    auto const sourceIndex = m_filterModel->mapToSource(index);
-    auto const account = m_listModel->data(sourceIndex, Qt::UserRole).value<Models::Account>();
+    auto const sourceIndex = m_filter_model->mapToSource(index);
+    auto const account = m_list_model->data(sourceIndex, Qt::UserRole).value<Models::Account>();
 
     Dialogs::EditAccountDialog dialog(this, account);
     if (dialog.exec() != QDialog::Accepted) {
@@ -48,7 +48,7 @@ void ChartOfAccountsWindow::on_treeView_doubleClicked(QModelIndex const& index)
     }
 
     // Update model with new information.
-    m_listModel->saveAccount(dialog.account());
+    m_list_model->saveAccount(dialog.account());
 }
 
 void ChartOfAccountsWindow::on_actionAdd_Account_triggered()
@@ -60,12 +60,12 @@ void ChartOfAccountsWindow::on_actionAdd_Account_triggered()
     }
 
     // Add new account to the model.
-    m_listModel->saveAccount(dialog.account());
+    m_list_model->saveAccount(dialog.account());
 }
 
 void ChartOfAccountsWindow::on_actionAdd_Default_Accounts_triggered()
 {
     for (auto const& account : Models::DefaultAccounts) {
-        m_listModel->saveAccount(account);
+        m_list_model->saveAccount(account);
     }
 }
