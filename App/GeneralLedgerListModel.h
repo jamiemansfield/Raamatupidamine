@@ -17,33 +17,32 @@
 
 #pragma once
 
-#include <QMainWindow>
+#include <QAbstractListModel>
+#include <QDateTime>
 
-#include "GeneralLedgerListModel.h"
+#include "Models/Account.h"
 
-namespace Ui {
+struct GeneralLedgerTransaction {
+    QDate date;
+    Models::Account account;
+    int value;
+    QString description;
+};
 
-class MainWindow;
-
-}
-
-class MainWindow : public QMainWindow {
+class GeneralLedgerListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow() override;
+    explicit GeneralLedgerListModel(QObject* parent);
 
-private slots:
-    void on_actionChart_of_Accounts_triggered();
+    int rowCount(QModelIndex const& parent) const override;
+    int columnCount(QModelIndex const& parent) const override;
 
-    void on_actionCreate_Journal_triggered();
+    QVariant data(QModelIndex const& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
+    void reload();
 
 private:
-    Ui::MainWindow* m_ui;
-
-    GeneralLedgerListModel* m_list_model;
+    QVector<GeneralLedgerTransaction> m_transactions;
 };

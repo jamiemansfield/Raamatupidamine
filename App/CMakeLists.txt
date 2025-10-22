@@ -10,6 +10,7 @@ qt_add_executable(Raamatupidamine
     ChartOfAccountsFilterModel.cpp
     ChartOfAccountsListModel.cpp
     ChartOfAccountsWindow.cpp
+    GeneralLedgerListModel.cpp
     MainWindow.cpp
     main.cpp
 )

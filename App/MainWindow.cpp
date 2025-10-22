@@ -25,8 +25,11 @@
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
+    , m_list_model(new GeneralLedgerListModel(this))
 {
     m_ui->setupUi(this);
+
+    m_ui->treeView->setModel(m_list_model);
 }
 
 MainWindow::~MainWindow()
@@ -47,6 +50,7 @@ void MainWindow::on_actionCreate_Journal_triggered()
         return;
     }
     dialog.save_to_database();
+    m_list_model->reload();
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()
