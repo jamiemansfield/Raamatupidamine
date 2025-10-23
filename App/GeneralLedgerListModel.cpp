@@ -103,7 +103,7 @@ void GeneralLedgerListModel::reload()
         FROM transactions
         INNER JOIN accounts on accounts.id = transactions.account_id
         INNER JOIN journals on journals.id = transactions.journal_id
-        ORDER BY journals.date DESC, transactions.id;
+        ORDER BY date(journals.date) ASC, transactions.id DESC;
     )");
     if (!query.exec()) {
         endResetModel();
