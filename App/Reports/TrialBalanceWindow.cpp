@@ -28,6 +28,7 @@ TrialBalanceWindow::TrialBalanceWindow(QWidget* parent)
     m_ui->setupUi(this);
 
     m_ui->treeView->setModel(m_list_model);
+    m_ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 }
 
 TrialBalanceWindow::~TrialBalanceWindow()
