@@ -54,8 +54,15 @@
     <addaction name="separator"/>
     <addaction name="actionCreate_Journal"/>
    </widget>
+   <widget class="QMenu" name="menuReports">
+    <property name="title">
+     <string>Reports</string>
+    </property>
+    <addaction name="actionTrial_Balance"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuReports"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionQuit">
@@ -93,6 +100,11 @@
   <action name="actionCreate_Journal">
    <property name="text">
     <string>Create Journal</string>
+   </property>
+  </action>
+  <action name="actionTrial_Balance">
+   <property name="text">
+    <string>Trial Balance</string>
    </property>
   </action>
  </widget>

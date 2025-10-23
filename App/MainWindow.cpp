@@ -22,6 +22,7 @@
 
 #include "ChartOfAccountsWindow.h"
 #include "Dialogs/CreateJournalDialog.h"
+#include "Reports/TrialBalanceWindow.h"
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
@@ -51,6 +52,12 @@ void MainWindow::on_actionCreate_Journal_triggered()
     }
     dialog.save_to_database();
     m_list_model->reload();
+}
+
+void MainWindow::on_actionTrial_Balance_triggered()
+{
+    auto window = new Reports::TrialBalanceWindow(this);
+    window->show();
 }
 
 void MainWindow::on_actionAbout_Raamatupidamine_triggered()

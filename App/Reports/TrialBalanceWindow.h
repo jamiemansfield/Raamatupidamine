@@ -19,33 +19,27 @@
 
 #include <QMainWindow>
 
-#include "GeneralLedgerListModel.h"
+#include "TrialBalanceListModel.h"
 
 namespace Ui {
 
-class MainWindow;
+class TrialBalanceWindow;
 
 }
 
-class MainWindow : public QMainWindow {
+namespace Reports {
+
+class TrialBalanceWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow() override;
-
-private slots:
-    void on_actionChart_of_Accounts_triggered();
-
-    void on_actionCreate_Journal_triggered();
-
-    void on_actionTrial_Balance_triggered();
-
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
+    explicit TrialBalanceWindow(QWidget* parent);
+    ~TrialBalanceWindow() override;
 
 private:
-    Ui::MainWindow* m_ui;
+    Ui::TrialBalanceWindow* m_ui;
 
-    GeneralLedgerListModel* m_list_model;
+    TrialBalanceListModel* m_list_model;
 };
+
+}

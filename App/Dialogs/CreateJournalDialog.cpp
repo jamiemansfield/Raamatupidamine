@@ -35,7 +35,6 @@ CreateJournalDialog::CreateJournalDialog(QWidget* parent)
 
     m_ui->treeView->setModel(m_list_model);
     m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_ui->treeView->header()->setStretchLastSection(true);
 }
 
 CreateJournalDialog::~CreateJournalDialog()

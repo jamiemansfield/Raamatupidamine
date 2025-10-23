@@ -17,35 +17,30 @@
 
 #pragma once
 
-#include <QMainWindow>
+#include <QAbstractListModel>
 
-#include "GeneralLedgerListModel.h"
+namespace Reports {
 
-namespace Ui {
+struct Account {
+    QString nominal;
+    QString title;
+    int balance;
+};
 
-class MainWindow;
-
-}
-
-class MainWindow : public QMainWindow {
+class TrialBalanceListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow() override;
+    explicit TrialBalanceListModel(QObject* parent);
 
-private slots:
-    void on_actionChart_of_Accounts_triggered();
+    int rowCount(QModelIndex const& parent) const override;
+    int columnCount(QModelIndex const& parent) const override;
 
-    void on_actionCreate_Journal_triggered();
-
-    void on_actionTrial_Balance_triggered();
-
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
+    QVariant data(QModelIndex const& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
 private:
-    Ui::MainWindow* m_ui;
-
-    GeneralLedgerListModel* m_list_model;
+    QVector<Account> m_accounts;
 };
+
+}

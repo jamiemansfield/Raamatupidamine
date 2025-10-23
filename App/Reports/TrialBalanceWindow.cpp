@@ -15,37 +15,24 @@
  * License along with Raamatupidamine. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "TrialBalanceWindow.h"
+#include "ui_TrialBalanceWindow.h"
 
-#include <QMainWindow>
+namespace Reports {
 
-#include "GeneralLedgerListModel.h"
+TrialBalanceWindow::TrialBalanceWindow(QWidget* parent)
+    : QMainWindow(parent)
+    , m_ui(new Ui::TrialBalanceWindow)
+    , m_list_model(new TrialBalanceListModel(this))
+{
+    m_ui->setupUi(this);
 
-namespace Ui {
-
-class MainWindow;
-
+    m_ui->treeView->setModel(m_list_model);
 }
 
-class MainWindow : public QMainWindow {
-    Q_OBJECT
+TrialBalanceWindow::~TrialBalanceWindow()
+{
+    delete m_ui;
+}
 
-public:
-    MainWindow();
-    ~MainWindow() override;
-
-private slots:
-    void on_actionChart_of_Accounts_triggered();
-
-    void on_actionCreate_Journal_triggered();
-
-    void on_actionTrial_Balance_triggered();
-
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
-
-private:
-    Ui::MainWindow* m_ui;
-
-    GeneralLedgerListModel* m_list_model;
-};
+}
