@@ -24,6 +24,7 @@
 
 struct GeneralLedgerTransaction {
     QDate date;
+    int journal;
     Models::Account account;
     int value;
     QString description;
