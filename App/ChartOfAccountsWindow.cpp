@@ -24,12 +24,10 @@ ChartOfAccountsWindow::ChartOfAccountsWindow(QWidget* parent)
     : QMainWindow(parent)
     , m_ui(new Ui::ChartOfAccountsWindow)
     , m_list_model(new ChartOfAccountsListModel(this))
-    , m_filter_model(new ChartOfAccountsFilterModel(this))
 {
     m_ui->setupUi(this);
 
-    m_filter_model->setSourceModel(m_list_model);
-    m_ui->treeView->setModel(m_filter_model);
+    m_ui->treeView->setModel(m_list_model);
 }
 
 ChartOfAccountsWindow::~ChartOfAccountsWindow()
@@ -39,8 +37,7 @@ ChartOfAccountsWindow::~ChartOfAccountsWindow()
 
 void ChartOfAccountsWindow::on_treeView_doubleClicked(QModelIndex const& index)
 {
-    auto const sourceIndex = m_filter_model->mapToSource(index);
-    auto const account = m_list_model->data(sourceIndex, Qt::UserRole).value<Models::Account>();
+    auto const account = m_list_model->data(index, Qt::UserRole).value<Models::Account>();
 
     Dialogs::EditAccountDialog dialog(this, account);
     if (dialog.exec() != QDialog::Accepted) {

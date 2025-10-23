@@ -92,7 +92,7 @@ void ChartOfAccountsListModel::reload()
     beginResetModel();
     m_accounts.clear();
 
-    QSqlQuery query("SELECT id, code, title, type FROM accounts ORDER BY id;");
+    QSqlQuery query("SELECT id, code, title, type FROM accounts ORDER BY code;");
     if (!query.exec()) {
         endResetModel();
         return;

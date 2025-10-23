@@ -19,7 +19,6 @@
 
 #include <QMainWindow>
 
-#include "ChartOfAccountsFilterModel.h"
 #include "ChartOfAccountsListModel.h"
 
 namespace Ui {
@@ -45,5 +44,4 @@ private:
     Ui::ChartOfAccountsWindow* m_ui;
 
     ChartOfAccountsListModel* m_list_model;
-    ChartOfAccountsFilterModel* m_filter_model;
 };

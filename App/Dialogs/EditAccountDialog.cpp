@@ -20,12 +20,20 @@
 
 namespace Dialogs {
 
+EditAccountDialog::EditAccountDialog(QWidget* parent)
+    : QDialog(parent)
+    , m_ui(new Ui::EditAccountDialog)
+{
+    m_ui->setupUi(this);
+}
+
 EditAccountDialog::EditAccountDialog(QWidget* parent, Models::Account account)
     : QDialog(parent)
     , m_ui(new Ui::EditAccountDialog)
 {
     m_ui->setupUi(this);
 
+    m_account_id = account.id;
     m_ui->nominalLineEdit->setText(account.code);
     m_ui->typeComboBox->setCurrentText(Models::account_type_to_name(account.type));
     m_ui->titleLineEdit->setText(account.title);
@@ -68,6 +76,7 @@ Models::Account EditAccountDialog::account() const
     }
 
     return {
+        .id = m_account_id,
         .code = m_ui->nominalLineEdit->text(),
         .title = m_ui->titleLineEdit->text(),
         .type = type,
