@@ -35,6 +35,8 @@ CreateJournalDialog::CreateJournalDialog(QWidget* parent)
 
     m_ui->treeView->setModel(m_list_model);
     m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    m_ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 CreateJournalDialog::~CreateJournalDialog()
@@ -67,6 +69,12 @@ void CreateJournalDialog::update_balance()
 {
     auto const balance = static_cast<double>(m_list_model->current_balance()) / 100;
     m_ui->balanceLineEdit->setText(QString("%1").arg(balance, 0, 'f', 2));
+
+    if (m_list_model->transactions().size() == 0) {
+        m_ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    } else {
+        m_ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_list_model->current_balance() == 0);
+    }
 }
 
 void CreateJournalDialog::on_addTransactionButton_clicked()
