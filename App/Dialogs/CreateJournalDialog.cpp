@@ -19,6 +19,7 @@
 #include "ui_CreateJournalDialog.h"
 #include "ui_CreateTransactionDialog.h"
 
+#include <QMenu>
 #include <QSqlQuery>
 
 namespace Dialogs {
@@ -32,8 +33,9 @@ CreateJournalDialog::CreateJournalDialog(QWidget* parent)
 
     m_ui->dateEdit->setDate(QDate::currentDate());
 
-    m_ui->tableView->setModel(m_list_model);
-    m_ui->tableView->horizontalHeader()->setStretchLastSection(true);
+    m_ui->treeView->setModel(m_list_model);
+    m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_ui->treeView->header()->setStretchLastSection(true);
 }
 
 CreateJournalDialog::~CreateJournalDialog()
@@ -62,6 +64,12 @@ void CreateJournalDialog::save_to_database()
     }
 }
 
+void CreateJournalDialog::update_balance()
+{
+    auto const balance = static_cast<double>(m_list_model->current_balance()) / 100;
+    m_ui->balanceLineEdit->setText(QString("%1").arg(balance, 0, 'f', 2));
+}
+
 void CreateJournalDialog::on_addTransactionButton_clicked()
 {
     CreateTransactionDialog dialog(this);
@@ -73,8 +81,27 @@ void CreateJournalDialog::on_addTransactionButton_clicked()
     m_list_model->add_transaction(dialog.transaction());
 
     // Update balance
-    auto const balance = static_cast<double>(m_list_model->current_balance()) / 100;
-    m_ui->balanceLineEdit->setText(QString("%1").arg(balance, 0, 'f', 2));
+    update_balance();
+}
+
+void CreateJournalDialog::on_treeView_customContextMenuRequested(QPoint const& point)
+{
+    auto const index = m_ui->treeView->indexAt(point);
+    if (!index.isValid())
+        return;
+
+    auto const transaction = m_list_model->transactions().value(index.row());
+
+    QMenu context_menu("Context Menu", this);
+
+    QAction delete_transaction("Delete", this);
+    connect(&delete_transaction, &QAction::triggered, [this, index]() {
+        m_list_model->remove_transaction(index.row());
+        update_balance();
+    });
+    context_menu.addAction(&delete_transaction);
+
+    context_menu.exec(m_ui->treeView->viewport()->mapToGlobal(point));
 }
 
 CreateTransactionDialog::CreateTransactionDialog(QWidget* parent)
@@ -189,6 +216,13 @@ int CreateJournalListModel::current_balance() const
         balance += transaction.value;
     }
     return balance;
+}
+
+void CreateJournalListModel::remove_transaction(int row)
+{
+    beginRemoveRows(QModelIndex(), row, row);
+    m_transactions.remove(row);
+    endRemoveRows();
 }
 
 }

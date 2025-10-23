@@ -54,6 +54,8 @@ public:
 
     int current_balance() const;
 
+    void remove_transaction(int row);
+
 private:
     QVector<Transaction> m_transactions;
 };
@@ -67,8 +69,12 @@ public:
 
     void save_to_database();
 
+    void update_balance();
+
 private slots:
     void on_addTransactionButton_clicked();
+
+    void on_treeView_customContextMenuRequested(QPoint const& point);
 
 private:
     Ui::CreateJournalDialog* m_ui;
