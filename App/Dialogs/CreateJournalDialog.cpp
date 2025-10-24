@@ -74,7 +74,7 @@ void CreateJournalDialog::update_balance()
     auto const balance = static_cast<double>(m_list_model->current_balance()) / 100;
     m_ui->balanceLineEdit->setText(QString("%1").arg(balance, 0, 'f', 2));
 
-    if (m_list_model->transactions().size() == 0) {
+    if (m_list_model->transactions().empty()) {
         m_ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     } else {
         m_ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_list_model->current_balance() == 0);
@@ -92,6 +92,22 @@ void CreateJournalDialog::on_addTransactionButton_clicked()
     m_list_model->add_transaction(dialog.transaction());
 
     // Update balance
+    update_balance();
+}
+
+void CreateJournalDialog::on_treeView_doubleClicked(QModelIndex const& index)
+{
+    if (!index.isValid())
+        return;
+
+    auto const transaction = m_list_model->transactions().value(index.row());
+
+    CreateTransactionDialog dialog(this, transaction);
+    if (dialog.exec() != Accepted) {
+        return;
+    }
+
+    m_list_model->replace_transaction(index.row(), dialog.transaction());
     update_balance();
 }
 
@@ -136,6 +152,18 @@ CreateTransactionDialog::CreateTransactionDialog(QWidget* parent)
             m_ui->nominalComboBox->addItem(account.code + " - " + account.title, userData);
         }
     }
+}
+
+CreateTransactionDialog::CreateTransactionDialog(QWidget* parent, Transaction const& transaction)
+    : CreateTransactionDialog(parent)
+{
+    setWindowTitle("Edit transaction");
+
+    auto const value = static_cast<double>(transaction.value) / 100;
+
+    m_ui->nominalComboBox->setCurrentText(transaction.account.code + " - " + transaction.account.title);
+    m_ui->valueLineEdit->setText(QString("%1").arg(value, 0, 'f', 2));
+    m_ui->descriptionLineEdit->setText(transaction.description);
 }
 
 CreateTransactionDialog::~CreateTransactionDialog()
@@ -234,6 +262,15 @@ void CreateJournalListModel::remove_transaction(int row)
     beginRemoveRows(QModelIndex(), row, row);
     m_transactions.remove(row);
     endRemoveRows();
+}
+
+void CreateJournalListModel::replace_transaction(int row, Transaction const& transaction)
+{
+    m_transactions.replace(row, transaction);
+
+    auto const left = index(row, 0);
+    auto const right = index(row, 3);
+    emit dataChanged(left, right);
 }
 
 }

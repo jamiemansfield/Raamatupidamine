@@ -55,6 +55,7 @@ public:
     int current_balance() const;
 
     void remove_transaction(int row);
+    void replace_transaction(int row, Transaction const& transaction);
 
 private:
     QVector<Transaction> m_transactions;
@@ -74,6 +75,7 @@ public:
 private slots:
     void on_addTransactionButton_clicked();
 
+    void on_treeView_doubleClicked(QModelIndex const& index);
     void on_treeView_customContextMenuRequested(QPoint const& point);
 
 private:
@@ -87,6 +89,7 @@ class CreateTransactionDialog : public QDialog {
 
 public:
     explicit CreateTransactionDialog(QWidget* parent);
+    explicit CreateTransactionDialog(QWidget* parent, Transaction const& transaction);
     ~CreateTransactionDialog() override;
 
     Transaction transaction() const;
