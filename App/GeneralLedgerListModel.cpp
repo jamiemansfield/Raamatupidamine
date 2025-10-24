@@ -33,7 +33,7 @@ int GeneralLedgerListModel::rowCount(QModelIndex const& parent) const
 
 int GeneralLedgerListModel::columnCount(QModelIndex const& parent) const
 {
-    return 6;
+    return 7;
 }
 
 QVariant GeneralLedgerListModel::data(QModelIndex const& index, int role) const
@@ -48,18 +48,21 @@ QVariant GeneralLedgerListModel::data(QModelIndex const& index, int role) const
             return transaction.date.toString("dd/MM/yyyy");
         }
         if (column == 1) {
-            return transaction.journal;
+            return transaction.post_date.toString("dd/MM/yyyy");
         }
         if (column == 2) {
-            return transaction.account.code;
+            return transaction.journal;
         }
         if (column == 3) {
-            return transaction.account.title;
+            return transaction.account.code;
         }
         if (column == 4) {
-            return QString("%1").arg(static_cast<double>(transaction.value) / 100.0, 0, 'f', 2);
+            return transaction.account.title;
         }
         if (column == 5) {
+            return QString("%1").arg(static_cast<double>(transaction.value) / 100.0, 0, 'f', 2);
+        }
+        if (column == 6) {
             return transaction.description;
         }
     }
@@ -74,18 +77,21 @@ QVariant GeneralLedgerListModel::headerData(int section, Qt::Orientation orienta
             return "Date";
         }
         if (section == 1) {
-            return "Journal";
+            return "Post Date";
         }
         if (section == 2) {
-            return "Nominal";
+            return "Journal";
         }
         if (section == 3) {
-            return "Account";
+            return "Nominal";
         }
         if (section == 4) {
-            return "Value";
+            return "Account";
         }
         if (section == 5) {
+            return "Value";
+        }
+        if (section == 6) {
             return "Description";
         }
     }
@@ -99,7 +105,7 @@ void GeneralLedgerListModel::reload()
     m_transactions.clear();
 
     QSqlQuery query(R"(
-        SELECT accounts.id, accounts.code, accounts.title, accounts.type, journals.id, journals.date, transactions.value, transactions.description
+        SELECT accounts.id AS account_id, accounts.code, accounts.title, accounts.type, journals.id AS journal_id, journals.date, journals.post_date, transactions.value, transactions.description
         FROM transactions
         INNER JOIN accounts on accounts.id = transactions.account_id
         INNER JOIN journals on journals.id = transactions.journal_id
@@ -112,17 +118,18 @@ void GeneralLedgerListModel::reload()
 
     while (query.next()) {
         Models::Account account;
-        account.id = query.value(0).toInt();
-        account.code = query.value(1).toString();
-        account.title = query.value(2).toString();
-        account.type = Models::account_type_from_id(query.value(3).toInt());
+        account.id = query.value("account_id").toInt();
+        account.code = query.value("code").toString();
+        account.title = query.value("title").toString();
+        account.type = Models::account_type_from_id(query.value("type").toInt());
 
         GeneralLedgerTransaction transaction;
-        transaction.journal = query.value(4).toInt();
-        transaction.date = QDate::fromString(query.value(5).toString());
+        transaction.journal = query.value("journal_id").toInt();
+        transaction.date = QDate::fromString(query.value("date").toString(), "dd/MM/yyyy");
+        transaction.post_date = QDate::fromString(query.value("post_date").toString(), "dd/MM/yyyy");
         transaction.account = account;
-        transaction.value = query.value(6).toInt();
-        transaction.description = query.value(7).toString();
+        transaction.value = query.value("value").toInt();
+        transaction.description = query.value("description").toString();
 
         m_transactions.append(transaction);
     }

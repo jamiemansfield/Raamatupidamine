@@ -38,7 +38,8 @@ void registerMigrations(MigrationManager& manager)
         query.exec(R"(
             CREATE TABLE IF NOT EXISTS journals (
                 id INTEGER,
-                date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                date TEXT NOT NULL,
+                post_date TEXT NOT NULL,
                 PRIMARY KEY (id)
             );
         )");
