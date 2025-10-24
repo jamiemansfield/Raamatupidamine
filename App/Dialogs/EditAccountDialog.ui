@@ -53,41 +53,6 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <item>
-      <property name="text">
-       <string>Non-current Asset</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Current Asset</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Non-current Liability</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Current Liability</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Equity</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Income</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Expense</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item row="0" column="1">

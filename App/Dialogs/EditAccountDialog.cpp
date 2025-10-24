@@ -25,14 +25,19 @@ EditAccountDialog::EditAccountDialog(QWidget* parent)
     , m_ui(new Ui::EditAccountDialog)
 {
     m_ui->setupUi(this);
+
+    m_ui->typeComboBox->addItem("Non-current Asset", QVariant::fromValue(Models::Account::Type::NonCurrentAsset));
+    m_ui->typeComboBox->addItem("Current Asset", QVariant::fromValue(Models::Account::Type::CurrentAsset));
+    m_ui->typeComboBox->addItem("Non-current Liability", QVariant::fromValue(Models::Account::Type::NonCurrentLiability));
+    m_ui->typeComboBox->addItem("Current Liability", QVariant::fromValue(Models::Account::Type::CurrentLiability));
+    m_ui->typeComboBox->addItem("Equity", QVariant::fromValue(Models::Account::Type::Equity));
+    m_ui->typeComboBox->addItem("Income", QVariant::fromValue(Models::Account::Type::Income));
+    m_ui->typeComboBox->addItem("Expense", QVariant::fromValue(Models::Account::Type::Expense));
 }
 
 EditAccountDialog::EditAccountDialog(QWidget* parent, Models::Account account)
-    : QDialog(parent)
-    , m_ui(new Ui::EditAccountDialog)
+    : EditAccountDialog(parent)
 {
-    m_ui->setupUi(this);
-
     m_account_id = account.id;
     m_ui->nominalLineEdit->setText(account.code);
     m_ui->typeComboBox->setCurrentText(Models::account_type_to_name(account.type));
@@ -46,40 +51,11 @@ EditAccountDialog::~EditAccountDialog()
 
 Models::Account EditAccountDialog::account() const
 {
-    Models::Account::Type type;
-    switch (m_ui->typeComboBox->currentIndex()) {
-    case 0:
-        type = Models::Account::Type::NonCurrentAsset;
-        break;
-    case 1:
-        type = Models::Account::Type::CurrentAsset;
-        break;
-    case 2:
-        type = Models::Account::Type::NonCurrentLiability;
-        break;
-    case 3:
-        type = Models::Account::Type::CurrentLiability;
-        break;
-    case 4:
-        type = Models::Account::Type::Equity;
-        break;
-    case 5:
-        type = Models::Account::Type::Income;
-        break;
-    case 6:
-        type = Models::Account::Type::Expense;
-        break;
-
-    default:
-        type = Models::Account::Type::NonCurrentAsset;
-        break;
-    }
-
     return {
         .id = m_account_id,
         .code = m_ui->nominalLineEdit->text(),
         .title = m_ui->titleLineEdit->text(),
-        .type = type,
+        .type = m_ui->typeComboBox->currentData().value<Models::Account::Type>(),
     };
 }
 

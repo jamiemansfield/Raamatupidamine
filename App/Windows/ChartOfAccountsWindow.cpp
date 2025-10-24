@@ -18,7 +18,9 @@
 #include "ChartOfAccountsWindow.h"
 #include "ui_ChartOfAccountsWindow.h"
 
-#include "Dialogs/EditAccountDialog.h"
+#include "../Dialogs/EditAccountDialog.h"
+
+namespace Windows {
 
 ChartOfAccountsWindow::ChartOfAccountsWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -67,4 +69,6 @@ void ChartOfAccountsWindow::on_actionAdd_Default_Accounts_triggered()
     for (auto const& account : Models::DefaultAccounts) {
         m_list_model->saveAccount(account);
     }
+}
+
 }

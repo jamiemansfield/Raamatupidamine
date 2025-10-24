@@ -20,6 +20,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
+namespace Windows {
+
 ChartOfAccountsListModel::ChartOfAccountsListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
@@ -108,4 +110,6 @@ void ChartOfAccountsListModel::reload()
     }
 
     endResetModel();
+}
+
 }

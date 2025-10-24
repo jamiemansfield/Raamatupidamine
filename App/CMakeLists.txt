@@ -10,8 +10,9 @@ qt_add_executable(Raamatupidamine
     Reports/TrialBalanceListModel.cpp
     Reports/TrialBalanceWindow.cpp
 
-    ChartOfAccountsListModel.cpp
-    ChartOfAccountsWindow.cpp
+    Windows/ChartOfAccountsListModel.cpp
+    Windows/ChartOfAccountsWindow.cpp
+
     GeneralLedgerListModel.cpp
     MainWindow.cpp
     main.cpp

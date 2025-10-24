@@ -35,6 +35,9 @@ CreateJournalDialog::CreateJournalDialog(QWidget* parent)
 
     m_ui->treeView->setModel(m_list_model);
     m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    m_ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    m_ui->treeView->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
 
     m_ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }

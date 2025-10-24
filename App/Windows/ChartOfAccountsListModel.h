@@ -19,7 +19,9 @@
 
 #include <QAbstractListModel>
 
-#include "Models/Account.h"
+#include "../Models/Account.h"
+
+namespace Windows {
 
 class ChartOfAccountsListModel : public QAbstractListModel {
     Q_OBJECT
@@ -40,3 +42,5 @@ public:
 private:
     QVector<Models::Account> m_accounts;
 };
+
+}

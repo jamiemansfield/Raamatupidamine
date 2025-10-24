@@ -27,6 +27,8 @@ class ChartOfAccountsWindow;
 
 }
 
+namespace Windows {
+
 class ChartOfAccountsWindow : public QMainWindow {
     Q_OBJECT
 
@@ -45,3 +47,5 @@ private:
 
     ChartOfAccountsListModel* m_list_model;
 };
+
+}
