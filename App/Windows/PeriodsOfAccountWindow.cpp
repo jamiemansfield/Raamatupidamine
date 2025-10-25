@@ -15,60 +15,54 @@
  * License along with Raamatupidamine. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "ChartOfAccountsWindow.h"
-#include "ui_ChartOfAccountsWindow.h"
-
-#include "../Dialogs/EditAccountDialog.h"
+#include "PeriodsOfAccountWindow.h"
+#include "../Dialogs/EditPeriodDialog.h"
+#include "ui_PeriodsOfAccountWindow.h"
 
 namespace Windows {
 
-ChartOfAccountsWindow::ChartOfAccountsWindow(QWidget* parent)
+PeriodsOfAccountWindow::PeriodsOfAccountWindow(QWidget* parent)
     : QMainWindow(parent)
-    , m_ui(new Ui::ChartOfAccountsWindow)
-    , m_list_model(new ChartOfAccountsListModel(this))
+    , m_ui(new Ui::PeriodsOfAccountWindow)
+    , m_list_model(new PeriodsOfAccountListModel(this))
 {
     m_ui->setupUi(this);
 
     m_ui->treeView->setModel(m_list_model);
     m_ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    m_ui->treeView->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    m_ui->treeView->header()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
 }
 
-ChartOfAccountsWindow::~ChartOfAccountsWindow()
+PeriodsOfAccountWindow::~PeriodsOfAccountWindow()
 {
     delete m_ui;
 }
 
-void ChartOfAccountsWindow::on_treeView_doubleClicked(QModelIndex const& index)
+void PeriodsOfAccountWindow::on_treeView_doubleClicked(QModelIndex const& index)
 {
-    auto const account = m_list_model->data(index, Qt::UserRole).value<Models::Account>();
+    auto const period = m_list_model->data(index, Qt::UserRole).value<Models::PeriodOfAccount>();
 
-    Dialogs::EditAccountDialog dialog(this, account);
+    Dialogs::EditPeriodDialog dialog(this, period);
     if (dialog.exec() != QDialog::Accepted) {
         return;
     }
 
     // Update model with new information.
-    m_list_model->save_account(dialog.account());
+    m_list_model->save_period(dialog.period());
 }
 
-void ChartOfAccountsWindow::on_actionAdd_Account_triggered()
+void PeriodsOfAccountWindow::on_actionAdd_Period_of_Account_triggered()
 {
-    Dialogs::EditAccountDialog dialog(this);
-    dialog.setWindowTitle("Add Account");
+    Dialogs::EditPeriodDialog dialog(this);
+    dialog.setWindowTitle("Add Period of Account");
     if (dialog.exec() != QDialog::Accepted) {
         return;
     }
 
-    // Add new account to the model.
-    m_list_model->save_account(dialog.account());
-}
-
-void ChartOfAccountsWindow::on_actionAdd_Default_Accounts_triggered()
-{
-    for (auto const& account : Models::DefaultAccounts) {
-        m_list_model->save_account(account);
-    }
+    // Add new period of account to the model.
+    m_list_model->save_period(dialog.period());
 }
 
 }

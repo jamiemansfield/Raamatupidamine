@@ -17,36 +17,32 @@
 
 #pragma once
 
-#include <QMainWindow>
+#include <QDialog>
 
-#include "GeneralLedgerListModel.h"
+#include "../Models/PeriodOfAccount.h"
 
 namespace Ui {
 
-class MainWindow;
+class EditPeriodDialog;
 
 }
 
-class MainWindow : public QMainWindow {
+namespace Dialogs {
+
+class EditPeriodDialog : public QDialog {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow() override;
+    explicit EditPeriodDialog(QWidget* parent);
+    explicit EditPeriodDialog(QWidget* parent, Models::PeriodOfAccount account);
+    ~EditPeriodDialog() override;
 
-private slots:
-    void on_actionChart_of_Accounts_triggered();
-    void on_actionPeriods_of_Account_triggered();
-
-    void on_actionCreate_Journal_triggered();
-
-    void on_actionTrial_Balance_triggered();
-
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
+    Models::PeriodOfAccount period() const;
 
 private:
-    Ui::MainWindow* m_ui;
+    Ui::EditPeriodDialog* m_ui;
 
-    GeneralLedgerListModel* m_list_model;
+    int m_period_id { -1 };
 };
+
+}

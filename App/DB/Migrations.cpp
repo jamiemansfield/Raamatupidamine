@@ -36,10 +36,22 @@ void registerMigrations(MigrationManager& manager)
         )");
 
         query.exec(R"(
+            CREATE TABLE IF NOT EXISTS periods (
+                id INTEGER,
+                name TEXT UNIQUE,
+                start_date TEXT,
+                end_date TEXT,
+                open BOOLEAN,
+                PRIMARY KEY (id)
+            );
+        )");
+
+        query.exec(R"(
             CREATE TABLE IF NOT EXISTS journals (
                 id INTEGER,
                 date TEXT NOT NULL,
                 post_date TEXT NOT NULL,
+                period_id INTEGER REFERENCES periods,
                 PRIMARY KEY (id)
             );
         )");

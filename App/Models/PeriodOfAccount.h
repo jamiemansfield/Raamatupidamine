@@ -17,36 +17,20 @@
 
 #pragma once
 
-#include <QMainWindow>
+#include <QDate>
+#include <QString>
 
-#include "GeneralLedgerListModel.h"
+namespace Models {
 
-namespace Ui {
+struct PeriodOfAccount {
+    int id { -1 };
+    QString name;
+    QDate start_date;
+    QDate end_date;
+    bool open { true };
+};
 
-class MainWindow;
+QVector<PeriodOfAccount> get_periods(bool must_be_open = false);
+int save_period(PeriodOfAccount const& period);
 
 }
-
-class MainWindow : public QMainWindow {
-    Q_OBJECT
-
-public:
-    MainWindow();
-    ~MainWindow() override;
-
-private slots:
-    void on_actionChart_of_Accounts_triggered();
-    void on_actionPeriods_of_Account_triggered();
-
-    void on_actionCreate_Journal_triggered();
-
-    void on_actionTrial_Balance_triggered();
-
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
-
-private:
-    Ui::MainWindow* m_ui;
-
-    GeneralLedgerListModel* m_list_model;
-};

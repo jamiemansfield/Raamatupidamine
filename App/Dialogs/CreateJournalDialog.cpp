@@ -22,6 +22,8 @@
 #include <QMenu>
 #include <QSqlQuery>
 
+#include "../Models/PeriodOfAccount.h"
+
 namespace Dialogs {
 
 CreateJournalDialog::CreateJournalDialog(QWidget* parent)
@@ -32,6 +34,10 @@ CreateJournalDialog::CreateJournalDialog(QWidget* parent)
     m_ui->setupUi(this);
 
     m_ui->dateEdit->setDate(QDate::currentDate());
+
+    for (auto const& period : Models::get_periods(true)) {
+        m_ui->periodComboBox->addItem(period.name, QVariant::fromValue(period));
+    }
 
     m_ui->treeView->setModel(m_list_model);
     m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -51,9 +57,10 @@ void CreateJournalDialog::save_to_database()
 {
     // Create journals entry
     QSqlQuery journal_query(QSqlDatabase::database());
-    journal_query.prepare("INSERT INTO journals (date, post_date) VALUES (:date, :post_date);");
+    journal_query.prepare("INSERT INTO journals (date, post_date, period_id) VALUES (:date, :post_date, :period_id);");
     journal_query.bindValue(":date", m_ui->dateEdit->date().toString("dd/MM/yyyy"));
     journal_query.bindValue(":post_date", QDate::currentDate().toString("dd/MM/yyyy"));
+    journal_query.bindValue(":period_id", m_ui->periodComboBox->currentData().value<Models::PeriodOfAccount>().id);
     journal_query.exec();
     auto const journal_id = journal_query.lastInsertId().toInt();
 
@@ -146,10 +153,9 @@ CreateTransactionDialog::CreateTransactionDialog(QWidget* parent)
             account.code = query.value("code").toString();
             account.title = query.value("title").toString();
 
-            QVariant userData;
-            userData.setValue(account);
-
-            m_ui->nominalComboBox->addItem(account.code + " - " + account.title, userData);
+            m_ui->nominalComboBox->addItem(
+                account.code + " - " + account.title,
+                QVariant::fromValue(account));
         }
     }
 }

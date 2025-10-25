@@ -4,14 +4,18 @@ qt_add_executable(Raamatupidamine
 
     Dialogs/CreateJournalDialog.cpp
     Dialogs/EditAccountDialog.cpp
+    Dialogs/EditPeriodDialog.cpp
 
     Models/Account.cpp
+    Models/PeriodOfAccount.cpp
 
     Reports/TrialBalanceListModel.cpp
     Reports/TrialBalanceWindow.cpp
 
     Windows/ChartOfAccountsListModel.cpp
     Windows/ChartOfAccountsWindow.cpp
+    Windows/PeriodsOfAccountListModel.cpp
+    Windows/PeriodsOfAccountWindow.cpp
 
     GeneralLedgerListModel.cpp
     MainWindow.cpp

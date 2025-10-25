@@ -83,7 +83,7 @@ QVariant ChartOfAccountsListModel::headerData(int section, Qt::Orientation orien
     return {};
 }
 
-void ChartOfAccountsListModel::saveAccount(Models::Account const& account)
+void ChartOfAccountsListModel::save_account(Models::Account const& account)
 {
     Models::save_account(account);
     reload();

@@ -17,35 +17,34 @@
 
 #pragma once
 
-#include <QAbstractListModel>
+#include <QMainWindow>
 
-#include "Models/Account.h"
-#include "Models/PeriodOfAccount.h"
+#include "PeriodsOfAccountListModel.h"
 
-struct GeneralLedgerTransaction {
-    QDate date;
-    QDate post_date;
-    Models::PeriodOfAccount period;
-    int journal;
-    Models::Account account;
-    int value;
-    QString description;
-};
+namespace Ui {
 
-class GeneralLedgerListModel : public QAbstractListModel {
+class PeriodsOfAccountWindow;
+
+}
+
+namespace Windows {
+
+class PeriodsOfAccountWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit GeneralLedgerListModel(QObject* parent);
+    PeriodsOfAccountWindow(QWidget* parent = nullptr);
+    ~PeriodsOfAccountWindow() override;
 
-    int rowCount(QModelIndex const& parent) const override;
-    int columnCount(QModelIndex const& parent) const override;
+private slots:
+    void on_treeView_doubleClicked(QModelIndex const& index);
 
-    QVariant data(QModelIndex const& index, int role) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
-
-    void reload();
+    void on_actionAdd_Period_of_Account_triggered();
 
 private:
-    QVector<GeneralLedgerTransaction> m_transactions;
+    Ui::PeriodsOfAccountWindow* m_ui;
+
+    PeriodsOfAccountListModel* m_list_model;
 };
+
+}

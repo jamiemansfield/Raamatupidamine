@@ -17,26 +17,17 @@
 
 #pragma once
 
+#include "../Models/PeriodOfAccount.h"
+
 #include <QAbstractListModel>
 
-#include "Models/Account.h"
-#include "Models/PeriodOfAccount.h"
+namespace Windows {
 
-struct GeneralLedgerTransaction {
-    QDate date;
-    QDate post_date;
-    Models::PeriodOfAccount period;
-    int journal;
-    Models::Account account;
-    int value;
-    QString description;
-};
-
-class GeneralLedgerListModel : public QAbstractListModel {
+class PeriodsOfAccountListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    explicit GeneralLedgerListModel(QObject* parent);
+    explicit PeriodsOfAccountListModel(QObject* parent);
 
     int rowCount(QModelIndex const& parent) const override;
     int columnCount(QModelIndex const& parent) const override;
@@ -44,8 +35,12 @@ public:
     QVariant data(QModelIndex const& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+    void save_period(Models::PeriodOfAccount const& period);
+
     void reload();
 
 private:
-    QVector<GeneralLedgerTransaction> m_transactions;
+    QVector<Models::PeriodOfAccount> m_periods;
 };
+
+}

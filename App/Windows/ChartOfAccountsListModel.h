@@ -35,7 +35,7 @@ public:
     QVariant data(QModelIndex const& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    void saveAccount(Models::Account const& account);
+    void save_account(Models::Account const& account);
 
     void reload();
 

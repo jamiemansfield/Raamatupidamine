@@ -63,6 +63,7 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionChart_of_Accounts"/>
+    <addaction name="actionPeriods_of_Account"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -110,6 +111,11 @@
   <action name="actionTrial_Balance">
    <property name="text">
     <string>Trial Balance</string>
+   </property>
+  </action>
+  <action name="actionPeriods_of_Account">
+   <property name="text">
+    <string>Periods of Account</string>
    </property>
   </action>
  </widget>

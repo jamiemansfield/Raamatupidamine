@@ -23,6 +23,7 @@
 #include "Dialogs/CreateJournalDialog.h"
 #include "Reports/TrialBalanceWindow.h"
 #include "Windows/ChartOfAccountsWindow.h"
+#include "Windows/PeriodsOfAccountWindow.h"
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
@@ -46,6 +47,12 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionChart_of_Accounts_triggered()
 {
     auto window = new Windows::ChartOfAccountsWindow(this);
+    window->show();
+}
+
+void MainWindow::on_actionPeriods_of_Account_triggered()
+{
+    auto window = new Windows::PeriodsOfAccountWindow(this);
     window->show();
 }
 
