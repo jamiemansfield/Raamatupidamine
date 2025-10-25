@@ -44,7 +44,7 @@
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="actionAdd_Account"/>
     <addaction name="actionAdd_Default_Accounts"/>

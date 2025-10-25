@@ -54,13 +54,13 @@
    </widget>
    <widget class="QMenu" name="menuReports">
     <property name="title">
-     <string>Reports</string>
+     <string>&amp;Reports</string>
     </property>
     <addaction name="actionTrial_Balance"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>View</string>
+     <string>&amp;View</string>
     </property>
     <addaction name="actionChart_of_Accounts"/>
    </widget>
