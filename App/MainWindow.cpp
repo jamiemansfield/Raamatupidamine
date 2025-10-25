@@ -24,24 +24,55 @@
 #include "Reports/TrialBalanceWindow.h"
 #include "Windows/ChartOfAccountsWindow.h"
 #include "Windows/PeriodsOfAccountWindow.h"
+#include "Windows/TransactionsWindow.h"
 
 MainWindow::MainWindow()
     : m_ui(new Ui::MainWindow)
-    , m_list_model(new GeneralLedgerListModel(this))
+    , m_list_model(new TransactionsListModel(this))
 {
     m_ui->setupUi(this);
 
     m_ui->treeView->setModel(m_list_model);
+    m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    m_ui->treeView->header()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
+    m_ui->treeView->header()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
 }
 
 MainWindow::~MainWindow()
 {
     delete m_ui;
+}
+
+void MainWindow::on_treeView_customContextMenuRequested(QPoint const& point)
+{
+    auto const index = m_ui->treeView->indexAt(point);
+    if (!index.isValid())
+        return;
+
+    auto const transaction = m_list_model->transactions().at(index.row());
+
+    QMenu context_menu("Context Menu", this);
+
+    QAction view_journal("View Journal", this);
+    connect(&view_journal, &QAction::triggered, [this, transaction]() {
+        auto window = Windows::TransactionsWindow::filter_by_journal(this, transaction.journal);
+        window->show();
+    });
+    context_menu.addAction(&view_journal);
+
+    QAction view_account("View Account", this);
+    connect(&view_account, &QAction::triggered, [this, transaction]() {
+        auto window = Windows::TransactionsWindow::filter_by_account(this, transaction.account.id);
+        window->show();
+    });
+    context_menu.addAction(&view_account);
+
+    context_menu.exec(m_ui->treeView->viewport()->mapToGlobal(point));
 }
 
 void MainWindow::on_actionChart_of_Accounts_triggered()

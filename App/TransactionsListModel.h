@@ -22,7 +22,7 @@
 #include "Models/Account.h"
 #include "Models/PeriodOfAccount.h"
 
-struct GeneralLedgerTransaction {
+struct Transaction {
     QDate date;
     QDate post_date;
     Models::PeriodOfAccount period;
@@ -32,11 +32,14 @@ struct GeneralLedgerTransaction {
     QString description;
 };
 
-class GeneralLedgerListModel : public QAbstractListModel {
+class TransactionsListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    explicit GeneralLedgerListModel(QObject* parent);
+    static TransactionsListModel* filter_by_journal(QObject* parent, int journal_id);
+    static TransactionsListModel* filter_by_account(QObject* parent, int account_id);
+
+    explicit TransactionsListModel(QObject* parent, bool load = true);
 
     int rowCount(QModelIndex const& parent) const override;
     int columnCount(QModelIndex const& parent) const override;
@@ -44,8 +47,13 @@ public:
     QVariant data(QModelIndex const& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+    QVector<Transaction> transactions() { return m_transactions; }
+
     void reload();
 
 private:
-    QVector<GeneralLedgerTransaction> m_transactions;
+    int m_journal_id { -1 };
+    int m_account_id { -1 };
+
+    QVector<Transaction> m_transactions;
 };

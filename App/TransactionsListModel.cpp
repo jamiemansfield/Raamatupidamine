@@ -15,28 +15,45 @@
  * License along with Raamatupidamine. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "GeneralLedgerListModel.h"
+#include "TransactionsListModel.h"
 
 #include <QSqlError>
 #include <QSqlQuery>
 
-GeneralLedgerListModel::GeneralLedgerListModel(QObject* parent)
-    : QAbstractListModel(parent)
+TransactionsListModel* TransactionsListModel::filter_by_journal(QObject* parent, int journal_id)
 {
-    reload();
+    auto const model = new TransactionsListModel(parent, false);
+    model->m_journal_id = journal_id;
+    model->reload();
+    return model;
 }
 
-int GeneralLedgerListModel::rowCount(QModelIndex const& parent) const
+TransactionsListModel* TransactionsListModel::filter_by_account(QObject* parent, int account_id)
+{
+    auto const model = new TransactionsListModel(parent, false);
+    model->m_account_id = account_id;
+    model->reload();
+    return model;
+}
+
+TransactionsListModel::TransactionsListModel(QObject* parent, bool load)
+    : QAbstractListModel(parent)
+{
+    if (load)
+        reload();
+}
+
+int TransactionsListModel::rowCount(QModelIndex const& parent) const
 {
     return m_transactions.length();
 }
 
-int GeneralLedgerListModel::columnCount(QModelIndex const& parent) const
+int TransactionsListModel::columnCount(QModelIndex const& parent) const
 {
     return 8;
 }
 
-QVariant GeneralLedgerListModel::data(QModelIndex const& index, int role) const
+QVariant TransactionsListModel::data(QModelIndex const& index, int role) const
 {
     auto const row = index.row();
     auto const column = index.column();
@@ -73,7 +90,7 @@ QVariant GeneralLedgerListModel::data(QModelIndex const& index, int role) const
     return {};
 }
 
-QVariant GeneralLedgerListModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant TransactionsListModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section == 0) {
@@ -105,19 +122,25 @@ QVariant GeneralLedgerListModel::headerData(int section, Qt::Orientation orienta
     return {};
 }
 
-void GeneralLedgerListModel::reload()
+void TransactionsListModel::reload()
 {
     beginResetModel();
     m_transactions.clear();
 
-    QSqlQuery query(R"(
+    QString sql = R"(
         SELECT accounts.id AS account_id, accounts.code, accounts.title, accounts.type, journals.id AS journal_id, journals.date, journals.post_date, periods.id AS period_id, periods.name AS period_name, transactions.value, transactions.description
         FROM transactions
         INNER JOIN accounts on accounts.id = transactions.account_id
         INNER JOIN journals on journals.id = transactions.journal_id
         INNER JOIN periods on periods.id = journals.period_id
-        ORDER BY date(journals.date) ASC, transactions.id DESC;
-    )");
+    )";
+    if (m_journal_id != -1)
+        sql += " WHERE journals.id = " + QString::number(m_journal_id);
+    if (m_account_id != -1)
+        sql += " WHERE accounts.id = " + QString::number(m_account_id);
+    sql += " ORDER BY date(journals.date) ASC, journals.id DESC, transactions.id;";
+
+    QSqlQuery query(sql);
     if (!query.exec()) {
         endResetModel();
         return;
@@ -134,7 +157,7 @@ void GeneralLedgerListModel::reload()
         period.id = query.value("period_id").toInt();
         period.name = query.value("period_name").toString();
 
-        GeneralLedgerTransaction transaction;
+        Transaction transaction;
         transaction.journal = query.value("journal_id").toInt();
         transaction.date = QDate::fromString(query.value("date").toString(), "dd/MM/yyyy");
         transaction.post_date = QDate::fromString(query.value("post_date").toString(), "dd/MM/yyyy");

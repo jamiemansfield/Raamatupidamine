@@ -19,36 +19,30 @@
 
 #include <QMainWindow>
 
-#include "TransactionsListModel.h"
+#include "../TransactionsListModel.h"
 
 namespace Ui {
 
-class MainWindow;
+class TransactionsWindow;
 
 }
 
-class MainWindow : public QMainWindow {
+namespace Windows {
+
+class TransactionsWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow() override;
+    static TransactionsWindow* filter_by_journal(QWidget* parent, int journal_id);
+    static TransactionsWindow* filter_by_account(QWidget* parent, int account_id);
 
-private slots:
-    void on_treeView_customContextMenuRequested(QPoint const& point);
-
-    void on_actionChart_of_Accounts_triggered();
-    void on_actionPeriods_of_Account_triggered();
-
-    void on_actionCreate_Journal_triggered();
-
-    void on_actionTrial_Balance_triggered();
-
-    void on_actionAbout_Raamatupidamine_triggered();
-    void on_actionAbout_Qt_triggered();
+    TransactionsWindow(QWidget* parent, TransactionsListModel* list_model);
+    ~TransactionsWindow() override;
 
 private:
-    Ui::MainWindow* m_ui;
+    Ui::TransactionsWindow* m_ui;
 
     TransactionsListModel* m_list_model;
 };
+
+}

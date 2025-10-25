@@ -16,10 +16,11 @@ qt_add_executable(Raamatupidamine
     Windows/ChartOfAccountsWindow.cpp
     Windows/PeriodsOfAccountListModel.cpp
     Windows/PeriodsOfAccountWindow.cpp
+    Windows/TransactionsWindow.cpp
 
-    GeneralLedgerListModel.cpp
-    MainWindow.cpp
     main.cpp
+    MainWindow.cpp
+    TransactionsListModel.cpp
 )
 
 target_link_libraries(Raamatupidamine PRIVATE Qt6::Widgets Qt6::Sql)
