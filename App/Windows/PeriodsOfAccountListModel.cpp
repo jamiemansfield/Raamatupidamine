@@ -82,7 +82,7 @@ QVariant PeriodsOfAccountListModel::headerData(int section, Qt::Orientation orie
             return "Name";
         }
         if (section == 3) {
-            return "Closed";
+            return "Open";
         }
     }
 
