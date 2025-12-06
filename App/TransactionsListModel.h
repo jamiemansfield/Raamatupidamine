@@ -48,12 +48,22 @@ public:
 
     void set_journal(int journal_id) { m_journal_id = journal_id; }
     void set_account(int account_id) { m_account_id = account_id; }
+    void set_period(int period_id) { m_period_id = period_id; }
+    void set_start_date(QDate start_date) { m_start_date = start_date; }
+    void set_end_date(QDate end_date) { m_end_date = end_date; }
+    void set_start_post_date(QDate start_post_date) { m_start_post_date = start_post_date; }
+    void set_end_post_date(QDate end_post_date) { m_end_post_date = end_post_date; }
 
     void reload();
 
 private:
     int m_journal_id { -1 };
     int m_account_id { -1 };
+    int m_period_id { -1 };
+    QDate m_start_date { };
+    QDate m_end_date { };
+    QDate m_start_post_date { };
+    QDate m_end_post_date { };
 
     QVector<Transaction> m_transactions;
 };

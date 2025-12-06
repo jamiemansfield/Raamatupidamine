@@ -116,10 +116,27 @@ void TransactionsListModel::reload()
         INNER JOIN journals on journals.id = transactions.journal_id
         INNER JOIN periods on periods.id = journals.period_id
     )";
+
+    QStringList conditions;
+
     if (m_journal_id != -1)
-        sql += " WHERE journals.id = " + QString::number(m_journal_id);
+        conditions << "journals.id = " + QString::number(m_journal_id);
     if (m_account_id != -1)
-        sql += " WHERE accounts.id = " + QString::number(m_account_id);
+        conditions << "accounts.id = " + QString::number(m_account_id);
+    if (m_period_id != -1)
+        conditions << "periods.id = " + QString::number(m_period_id);
+    if (!m_start_date.isNull())
+        conditions << "journals.date >= '" + m_start_date.toString("yyyy-MM-dd") + "'";
+    if (!m_end_date.isNull())
+        conditions << "journals.date <= '" + m_end_date.toString("yyyy-MM-dd") + "'";
+    if (!m_start_post_date.isNull())
+        conditions << "journals.post_date >= '" + m_start_post_date.toString("yyyy-MM-dd") + "'";
+    if (!m_end_post_date.isNull())
+        conditions << "journals.post_date <= '" + m_end_post_date.toString("yyyy-MM-dd") + "'";
+
+    if (!conditions.isEmpty())
+        sql += " WHERE " + conditions.join(" AND ");
+
     sql += " ORDER BY date(journals.date) ASC, journals.id DESC, transactions.id;";
 
     QSqlQuery query(sql);
