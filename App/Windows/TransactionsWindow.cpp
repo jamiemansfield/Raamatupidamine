@@ -35,6 +35,15 @@ TransactionsWindow::TransactionsWindow(QWidget* parent)
     m_ui->treeView->header()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
     m_ui->treeView->header()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
+
+    // Recalculate total
+    connect(m_list_model, &TransactionsListModel::modelReset, [this]() {
+        int total = 0;
+        for (auto const& transaction : m_list_model->transactions()) {
+            total += transaction.value;
+        }
+        m_ui->statusBar->showMessage(QString("%1").arg(static_cast<double>(total) / 100.0, 0, 'f', 2));
+    });
 }
 
 TransactionsWindow::~TransactionsWindow()
