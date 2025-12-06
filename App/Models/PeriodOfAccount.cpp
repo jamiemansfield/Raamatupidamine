@@ -38,8 +38,8 @@ QVector<PeriodOfAccount> get_periods(bool must_be_open)
     while (query.next()) {
         PeriodOfAccount period;
         period.id = query.value("id").toInt();
-        period.start_date = QDate::fromString(query.value("start_date").toString(), "dd/MM/yyyy");
-        period.end_date = QDate::fromString(query.value("end_date").toString(), "dd/MM/yyyy");
+        period.start_date = QDate::fromString(query.value("start_date").toString(), "yyyy-MM-dd");
+        period.end_date = QDate::fromString(query.value("end_date").toString(), "yyyy-MM-dd");
         period.name = query.value("name").toString();
         period.open = query.value("open").toBool();
         period_of_accounts.append(period);
@@ -56,8 +56,8 @@ int save_period(PeriodOfAccount const& period)
     if (period.id == -1) {
         query.prepare("INSERT INTO periods (name, start_date, end_date, open) VALUES (:name, :start_date, :end_date, :open);");
         query.bindValue(":name", period.name);
-        query.bindValue(":start_date", period.start_date.toString("dd/MM/yyyy"));
-        query.bindValue(":end_date", period.end_date.toString("dd/MM/yyyy"));
+        query.bindValue(":start_date", period.start_date.toString("yyyy-MM-dd"));
+        query.bindValue(":end_date", period.end_date.toString("yyyy-MM-dd"));
         query.bindValue(":open", period.open);
         query.exec();
         return query.lastInsertId().toInt();
@@ -67,8 +67,8 @@ int save_period(PeriodOfAccount const& period)
     query.prepare("UPDATE periods SET name = :name, start_date = :start_date, end_date = :end_date, open = :open WHERE id = :id;");
     query.bindValue(":id", period.id);
     query.bindValue(":name", period.name);
-    query.bindValue(":start_date", period.start_date.toString("dd/MM/yyyy"));
-    query.bindValue(":end_date", period.end_date.toString("dd/MM/yyyy"));
+    query.bindValue(":start_date", period.start_date.toString("yyyy-MM-dd"));
+    query.bindValue(":end_date", period.end_date.toString("yyyy-MM-dd"));
     query.bindValue(":open", period.open);
     query.exec();
     return period.id;

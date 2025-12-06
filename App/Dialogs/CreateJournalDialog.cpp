@@ -58,8 +58,8 @@ void CreateJournalDialog::save_to_database()
     // Create journals entry
     QSqlQuery journal_query(QSqlDatabase::database());
     journal_query.prepare("INSERT INTO journals (date, post_date, period_id) VALUES (:date, :post_date, :period_id);");
-    journal_query.bindValue(":date", m_ui->dateEdit->date().toString("dd/MM/yyyy"));
-    journal_query.bindValue(":post_date", QDate::currentDate().toString("dd/MM/yyyy"));
+    journal_query.bindValue(":date", m_ui->dateEdit->date().toString("yyyy-MM-dd"));
+    journal_query.bindValue(":post_date", QDate::currentDate().toString("yyyy-MM-dd"));
     journal_query.bindValue(":period_id", m_ui->periodComboBox->currentData().value<Models::PeriodOfAccount>().id);
     journal_query.exec();
     auto const journal_id = journal_query.lastInsertId().toInt();

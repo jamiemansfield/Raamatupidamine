@@ -141,8 +141,8 @@ void TransactionsListModel::reload()
 
         Transaction transaction;
         transaction.journal = query.value("journal_id").toInt();
-        transaction.date = QDate::fromString(query.value("date").toString(), "dd/MM/yyyy");
-        transaction.post_date = QDate::fromString(query.value("post_date").toString(), "dd/MM/yyyy");
+        transaction.date = QDate::fromString(query.value("date").toString(), "yyyy-MM-dd");
+        transaction.post_date = QDate::fromString(query.value("post_date").toString(), "yyyy-MM-dd");
         transaction.period = period;
         transaction.account = account;
         transaction.value = query.value("value").toInt();
