@@ -29,7 +29,7 @@ class MigrationManager : QObject {
 public:
     explicit MigrationManager();
 
-    void addMigration(int version, std::function<void(QSqlQuery&)> const& function);
+    void add_migration(int version, std::function<void(QSqlQuery&)> const& function);
 
 private:
     int m_last_migration_version { -1 };

@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     db.open();
 
     DB::MigrationManager migrationManager;
-    DB::registerMigrations(migrationManager);
+    DB::register_migrations(migrationManager);
 
     MainWindow window;
     window.show();

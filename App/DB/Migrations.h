@@ -21,6 +21,6 @@
 
 namespace DB {
 
-void registerMigrations(MigrationManager& manager);
+void register_migrations(MigrationManager& manager);
 
 }

@@ -21,10 +21,10 @@
 
 namespace DB {
 
-void registerMigrations(MigrationManager& manager)
+void register_migrations(MigrationManager& manager)
 {
     // Initial migrations
-    manager.addMigration(0, [](QSqlQuery& query) {
+    manager.add_migration(0, [](QSqlQuery& query) {
         query.exec(R"(
             CREATE TABLE IF NOT EXISTS accounts (
                 id INTEGER,

@@ -36,7 +36,7 @@ MigrationManager::MigrationManager()
     }
 }
 
-void MigrationManager::addMigration(int version, std::function<void(QSqlQuery&)> const& function)
+void MigrationManager::add_migration(int version, std::function<void(QSqlQuery&)> const& function)
 {
     if (version > m_last_migration_version) {
         auto const db = QSqlDatabase::database();
