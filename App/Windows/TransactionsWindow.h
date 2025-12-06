@@ -33,11 +33,10 @@ class TransactionsWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    static TransactionsWindow* filter_by_journal(QWidget* parent, int journal_id);
-    static TransactionsWindow* filter_by_account(QWidget* parent, int account_id);
-
-    TransactionsWindow(QWidget* parent, TransactionsListModel* list_model);
+    TransactionsWindow(QWidget* parent);
     ~TransactionsWindow() override;
+
+    TransactionsListModel* list_model() const { return m_list_model; }
 
 private:
     Ui::TransactionsWindow* m_ui;

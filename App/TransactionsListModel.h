@@ -36,10 +36,7 @@ class TransactionsListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    static TransactionsListModel* filter_by_journal(QObject* parent, int journal_id);
-    static TransactionsListModel* filter_by_account(QObject* parent, int account_id);
-
-    explicit TransactionsListModel(QObject* parent, bool load = true);
+    explicit TransactionsListModel(QObject* parent);
 
     int rowCount(QModelIndex const& parent) const override;
     int columnCount(QModelIndex const& parent) const override;
@@ -48,6 +45,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
     QVector<Transaction> transactions() { return m_transactions; }
+
+    void set_journal(int journal_id) { m_journal_id = journal_id; }
+    void set_account(int account_id) { m_account_id = account_id; }
 
     void reload();
 

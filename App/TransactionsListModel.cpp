@@ -20,27 +20,9 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-TransactionsListModel* TransactionsListModel::filter_by_journal(QObject* parent, int journal_id)
-{
-    auto const model = new TransactionsListModel(parent, false);
-    model->m_journal_id = journal_id;
-    model->reload();
-    return model;
-}
-
-TransactionsListModel* TransactionsListModel::filter_by_account(QObject* parent, int account_id)
-{
-    auto const model = new TransactionsListModel(parent, false);
-    model->m_account_id = account_id;
-    model->reload();
-    return model;
-}
-
-TransactionsListModel::TransactionsListModel(QObject* parent, bool load)
+TransactionsListModel::TransactionsListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    if (load)
-        reload();
 }
 
 int TransactionsListModel::rowCount(QModelIndex const& parent) const

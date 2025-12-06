@@ -32,6 +32,8 @@ MainWindow::MainWindow()
 {
     m_ui->setupUi(this);
 
+    m_list_model->reload();
+
     m_ui->treeView->setModel(m_list_model);
     m_ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
@@ -60,14 +62,18 @@ void MainWindow::on_treeView_customContextMenuRequested(QPoint const& point)
 
     QAction view_journal("View Journal", this);
     connect(&view_journal, &QAction::triggered, [this, transaction]() {
-        auto window = Windows::TransactionsWindow::filter_by_journal(this, transaction.journal);
+        auto window = new Windows::TransactionsWindow(this);
+        window->list_model()->set_journal(transaction.journal);
+        window->list_model()->reload();
         window->show();
     });
     context_menu.addAction(&view_journal);
 
     QAction view_account("View Account", this);
     connect(&view_account, &QAction::triggered, [this, transaction]() {
-        auto window = Windows::TransactionsWindow::filter_by_account(this, transaction.account.id);
+        auto window = new Windows::TransactionsWindow(this);
+        window->list_model()->set_account(transaction.account.id);
+        window->list_model()->reload();
         window->show();
     });
     context_menu.addAction(&view_account);

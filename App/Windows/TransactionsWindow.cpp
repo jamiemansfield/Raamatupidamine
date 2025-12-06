@@ -20,20 +20,10 @@
 
 namespace Windows {
 
-TransactionsWindow* TransactionsWindow::filter_by_journal(QWidget* parent, int journal_id)
-{
-    return new TransactionsWindow(parent, TransactionsListModel::filter_by_journal(parent, journal_id));
-}
-
-TransactionsWindow* TransactionsWindow::filter_by_account(QWidget* parent, int account_id)
-{
-    return new TransactionsWindow(parent, TransactionsListModel::filter_by_account(parent, account_id));
-}
-
-TransactionsWindow::TransactionsWindow(QWidget* parent, TransactionsListModel* list_model)
+TransactionsWindow::TransactionsWindow(QWidget* parent)
     : QMainWindow(parent)
     , m_ui(new Ui::TransactionsWindow)
-    , m_list_model(list_model)
+    , m_list_model(new TransactionsListModel(this))
 {
     m_ui->setupUi(this);
 
