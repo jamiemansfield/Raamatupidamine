@@ -38,6 +38,9 @@ public:
 
     TransactionsListModel* list_model() const { return m_list_model; }
 
+private slots:
+    void on_treeView_customContextMenuRequested(QPoint const& point);
+
 private:
     Ui::TransactionsWindow* m_ui;
 
