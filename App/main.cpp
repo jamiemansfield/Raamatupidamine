@@ -38,8 +38,8 @@ int main(int argc, char* argv[])
     db.setDatabaseName("raamatupidamine.db");
     db.open();
 
-    DB::MigrationManager migrationManager;
-    DB::register_migrations(migrationManager);
+    DB::MigrationManager migration_manager;
+    DB::register_migrations(migration_manager);
 
     MainWindow window;
     window.show();

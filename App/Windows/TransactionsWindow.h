@@ -41,6 +41,8 @@ public:
 private slots:
     void on_treeView_customContextMenuRequested(QPoint const& point);
 
+    void on_actionExport_to_CSV_triggered();
+
 private:
     Ui::TransactionsWindow* m_ui;
 

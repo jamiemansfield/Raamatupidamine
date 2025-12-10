@@ -36,6 +36,9 @@ public:
     explicit TrialBalanceWindow(QWidget* parent);
     ~TrialBalanceWindow() override;
 
+private slots:
+    void on_actionExport_to_CSV_triggered();
+
 private:
     Ui::TrialBalanceWindow* m_ui;
 

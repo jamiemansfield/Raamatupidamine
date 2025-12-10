@@ -37,6 +37,8 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionExport_to_CSV"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -44,6 +46,11 @@
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
+   </property>
+  </action>
+  <action name="actionExport_to_CSV">
+   <property name="text">
+    <string>Export to CSV</string>
    </property>
   </action>
  </widget>

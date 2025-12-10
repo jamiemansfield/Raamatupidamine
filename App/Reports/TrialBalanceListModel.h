@@ -39,6 +39,8 @@ public:
     QVariant data(QModelIndex const& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+    QVector<Account> accounts() const { return m_accounts; }
+
 private:
     QVector<Account> m_accounts;
 };

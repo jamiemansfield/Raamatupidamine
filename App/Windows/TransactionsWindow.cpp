@@ -18,6 +18,8 @@
 #include "TransactionsWindow.h"
 #include "ui_TransactionsWindow.h"
 
+#include <QFileDialog>
+
 namespace Windows {
 
 TransactionsWindow::TransactionsWindow(QWidget* parent)
@@ -81,6 +83,42 @@ void TransactionsWindow::on_treeView_customContextMenuRequested(QPoint const& po
     context_menu.addAction(&view_account);
 
     context_menu.exec(m_ui->treeView->viewport()->mapToGlobal(point));
+}
+
+void TransactionsWindow::on_actionExport_to_CSV_triggered()
+{
+    QFileDialog dialog(this);
+    dialog.setWindowTitle("Save Transactions as CSV");
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setNameFilter(tr("CSV (*.csv)"));
+
+    if (!dialog.exec() || dialog.selectedFiles().empty())
+        return;
+
+    auto file_name = dialog.selectedFiles()[0];
+
+    QFile file(file_name);
+    if (!file.open(QFile::WriteOnly))
+        return;
+
+    QTextStream stream(&file);
+    stream << "Date,Post Date,Period,Journal,Nominal,Account,Value,Description\n";
+
+    for (const auto& transaction : m_list_model->transactions()) {
+        auto const value = static_cast<double>(transaction.value) / 100.0;
+
+        stream << transaction.date.toString("dd/MM/yyyy") << ",";
+        stream << transaction.post_date.toString("dd/MM/yyyy") << ",";
+        stream << transaction.period.name << ",";
+        stream << transaction.journal << ",";
+        stream << transaction.account.code << ",";
+        stream << "\"" << transaction.account.title << "\",";
+        stream << QString("%1").arg(value, 0, 'f', 2) << ",";
+        stream << "\"" << transaction.description << "\"";
+        stream << "\n";
+    }
+
+    file.close();
 }
 
 }

@@ -18,6 +18,8 @@
 #include "TrialBalanceWindow.h"
 #include "ui_TrialBalanceWindow.h"
 
+#include <QFileDialog>
+
 namespace Reports {
 
 TrialBalanceWindow::TrialBalanceWindow(QWidget* parent)
@@ -34,6 +36,43 @@ TrialBalanceWindow::TrialBalanceWindow(QWidget* parent)
 TrialBalanceWindow::~TrialBalanceWindow()
 {
     delete m_ui;
+}
+
+void TrialBalanceWindow::on_actionExport_to_CSV_triggered()
+{
+    QFileDialog dialog(this);
+    dialog.setWindowTitle("Save Trial Balance as CSV");
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setNameFilter(tr("CSV (*.csv)"));
+
+    if (!dialog.exec() || dialog.selectedFiles().empty())
+        return;
+
+    auto file_name = dialog.selectedFiles()[0];
+
+    QFile file(file_name);
+    if (!file.open(QFile::WriteOnly))
+        return;
+
+    QTextStream stream(&file);
+    stream << "Nominal,Account,Debit,Credit\n";
+
+    for (const auto& account : m_list_model->accounts()) {
+        QString debit;
+        if (account.balance > 0) {
+            auto const balance = static_cast<double>(account.balance) / 100.0;
+            debit = QString("%1").arg(balance, 0, 'f', 2);
+        }
+        QString credit;
+        if (account.balance < 0) {
+            auto const balance = static_cast<double>(-account.balance) / 100.0;
+            credit = QString("%1").arg(balance, 0, 'f', 2);
+        }
+
+        stream << "\"" + account.nominal + "\",\"" + account.title + "\"," + debit + "," + credit + "\n";
+    }
+
+    file.close();
 }
 
 }
