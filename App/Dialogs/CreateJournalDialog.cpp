@@ -19,7 +19,9 @@
 #include "ui_CreateJournalDialog.h"
 #include "ui_CreateTransactionDialog.h"
 
+#include <QErrorMessage>
 #include <QMenu>
+#include <QSqlError>
 #include <QSqlQuery>
 
 #include "../Models/PeriodOfAccount.h"
@@ -55,13 +57,25 @@ CreateJournalDialog::~CreateJournalDialog()
 
 void CreateJournalDialog::save_to_database()
 {
+    auto handle_error = [this](QString const& message, QSqlError const& error) {
+        auto* errorDialog = new QErrorMessage(this);
+        errorDialog->showMessage(message + "\n\n" + error.text());
+        QSqlDatabase::database().rollback();
+    };
+
+    QSqlDatabase::database().transaction();
+
     // Create journals entry
     QSqlQuery journal_query(QSqlDatabase::database());
     journal_query.prepare("INSERT INTO journals (date, post_date, period_id) VALUES (:date, :post_date, :period_id);");
     journal_query.bindValue(":date", m_ui->dateEdit->date().toString("yyyy-MM-dd"));
     journal_query.bindValue(":post_date", QDate::currentDate().toString("yyyy-MM-dd"));
     journal_query.bindValue(":period_id", m_ui->periodComboBox->currentData().value<Models::PeriodOfAccount>().id);
-    journal_query.exec();
+    if (!journal_query.exec()) {
+        handle_error("Failed to create journal", journal_query.lastError());
+        return;
+    }
+
     auto const journal_id = journal_query.lastInsertId().toInt();
 
     // Create transactions entries
@@ -72,7 +86,14 @@ void CreateJournalDialog::save_to_database()
         transaction_query.bindValue(":account_id", transaction.account.id);
         transaction_query.bindValue(":description", transaction.description);
         transaction_query.bindValue(":value", transaction.value);
-        transaction_query.exec();
+        if (!transaction_query.exec()) {
+            handle_error("Failed to create transaction", transaction_query.lastError());
+            return;
+        }
+    }
+
+    if (!QSqlDatabase::database().commit()) {
+        handle_error("Failed to commit SQL transaction", QSqlDatabase::database().lastError());
     }
 }
 
